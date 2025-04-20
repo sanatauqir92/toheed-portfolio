@@ -31,12 +31,11 @@ const routes = [
 ];
 
 export default function Header() {
-  const activePathname = usePathname();
-
+  
   return (
     <header className="w-full h-56 flex items-center bg-[#211814]">
       <div className="flex flex-row w-2/3 mx-auto my-0">
-        <div className="navbar shadow-sm">
+        <div className="navbar shadow-sm pl-0">
         <div className="navbar-start">
           <div className="flex flex-col">
             <p className="lg:text-6xl sm:text-lg font-bold">Toheed Chaudhry</p>

@@ -2,7 +2,9 @@ import React from 'react'
 
 const OnSet = () => {
   return (
-    <div>OnSet</div>
+    <>
+      <h1 className="text-4xl font-bold uppercase">ON SET</h1>
+    </>
   )
 }
 
