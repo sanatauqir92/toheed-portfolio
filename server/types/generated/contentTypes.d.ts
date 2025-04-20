@@ -502,6 +502,36 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEquipmentEquipment extends Struct.CollectionTypeSchema {
+  collectionName: 'equipments';
+  info: {
+    description: '';
+    displayName: 'Equipment';
+    pluralName: 'equipments';
+    singularName: 'equipment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Category: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Items: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment.equipment'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -534,13 +564,12 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiGridPhotoGridPhoto extends Struct.CollectionTypeSchema {
-  collectionName: 'grid_photos';
+export interface ApiMusicVideoMusicVideo extends Struct.CollectionTypeSchema {
+  collectionName: 'music_videos';
   info: {
-    description: '';
-    displayName: 'GridPhotos';
-    pluralName: 'grid-photos';
-    singularName: 'grid-photo';
+    displayName: 'Music Video';
+    pluralName: 'music-videos';
+    singularName: 'music-video';
   };
   options: {
     draftAndPublish: true;
@@ -549,16 +578,78 @@ export interface ApiGridPhotoGridPhoto extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Description: Schema.Attribute.Text;
-    File: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    Director: Schema.Attribute.String;
+    Editor: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::grid-photo.grid-photo'
+      'api::music-video.music-video'
+    > &
+      Schema.Attribute.Private;
+    Notes: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    Title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNarrativeNarrative extends Struct.CollectionTypeSchema {
+  collectionName: 'narratives';
+  info: {
+    description: '';
+    displayName: 'Narrative';
+    pluralName: 'narratives';
+    singularName: 'narrative';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Accolades: Schema.Attribute.String;
+    Additional: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Director: Schema.Attribute.String;
+    Editor: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::narrative.narrative'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    Title: Schema.Attribute.String;
+    Title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Url: Schema.Attribute.Text;
+    Year: Schema.Attribute.String;
+  };
+}
+
+export interface ApiOnsetOnset extends Struct.CollectionTypeSchema {
+  collectionName: 'onsets';
+  info: {
+    description: '';
+    displayName: 'Onset';
+    pluralName: 'onsets';
+    singularName: 'onset';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Category: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::onset.onset'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1140,8 +1231,11 @@ declare module '@strapi/strapi' {
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::equipment.equipment': ApiEquipmentEquipment;
       'api::global.global': ApiGlobalGlobal;
-      'api::grid-photo.grid-photo': ApiGridPhotoGridPhoto;
+      'api::music-video.music-video': ApiMusicVideoMusicVideo;
+      'api::narrative.narrative': ApiNarrativeNarrative;
+      'api::onset.onset': ApiOnsetOnset;
       'api::profile.profile': ApiProfileProfile;
       'api::project.project': ApiProjectProject;
       'plugin::content-releases.release': PluginContentReleasesRelease;

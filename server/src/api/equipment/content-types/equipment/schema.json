@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "equipments",
+  "info": {
+    "singularName": "equipment",
+    "pluralName": "equipments",
+    "displayName": "Equipment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Category": {
+      "type": "string",
+      "required": true
+    },
+    "Items": {
+      "type": "json"
+    }
+  }
+}

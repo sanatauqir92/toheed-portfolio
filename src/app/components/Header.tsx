@@ -36,7 +36,7 @@ export default function Header() {
     <header className="w-full h-56 flex items-center bg-[#211814] align-middle">
       <div className="lg:flex-row w-3/4 lg:w-2/3 mx-auto">
         <div className="navbar shadow-sm pl-0">
-          <div className="lg:navbar-start">
+          <div className="lg:navbar-start navbar-center">
             <div className="flex flex-col mb-4 items-center sm:items-start">
               <p className="text-3xl lg:text-5xl font-bold">Toheed Chaudhry</p>
               <p className="text-xl lg:text-2xl font-bold">Editor | DIT | 2nd AC</p>
@@ -47,7 +47,7 @@ export default function Header() {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3 p-2 shadow">
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 {routes.map((route) => (
                   <Link className="link-primary" href={route.path} key={route.name}>
                     {route.name} 
