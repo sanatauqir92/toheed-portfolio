@@ -15,8 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header/>
-        <div>{children}</div>
+        <div className="bg-white min-h-screen grid grid-rows-[auto_1fr_auto] w-full">
+          <Header />
+          <main className="text-black text-xl w-2/3 mx-auto mt-6 overflow-hidden">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
