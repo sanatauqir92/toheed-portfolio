@@ -17,7 +17,6 @@ async function getProfile() {
 const Contact = async () => {
 
   const profile = await getProfile();
-  console.log(profile);
   const imageUrl = `${
     process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337"
   }${profile.data.image.url}`;

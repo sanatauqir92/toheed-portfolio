@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "onsets",
+  "info": {
+    "singularName": "onset",
+    "pluralName": "onsets",
+    "displayName": "Onset",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Category": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

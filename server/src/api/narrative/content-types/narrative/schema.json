@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "narratives",
+  "info": {
+    "singularName": "narrative",
+    "pluralName": "narratives",
+    "displayName": "Narrative",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string",
+      "required": true
+    },
+    "Director": {
+      "type": "string"
+    },
+    "Editor": {
+      "type": "string"
+    },
+    "Additional": {
+      "type": "text"
+    },
+    "Year": {
+      "type": "string"
+    },
+    "Url": {
+      "type": "text"
+    },
+    "Accolades": {
+      "type": "string"
+    }
+  }
+}
