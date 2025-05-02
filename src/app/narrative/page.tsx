@@ -27,7 +27,6 @@ async function getNarrative() {
 
 const Narrative = async () => {
   const narrativeJobs = await getNarrative();
-  console.log(narrativeJobs)
 
   return (
     <>

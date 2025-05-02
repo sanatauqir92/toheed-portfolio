@@ -23,7 +23,6 @@ async function getEquipment() {
 
 const Equipment = async() => {
   const equipmentCategories = await getEquipment();
-  console.log(equipmentCategories)
 
   return (
     <>

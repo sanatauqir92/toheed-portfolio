@@ -21,7 +21,6 @@ async function getOnset() {
 
 const OnSet = async() => {
   const onSetCategories = await getOnset();
-  console.log(onSetCategories)
 
   return (
     <>
