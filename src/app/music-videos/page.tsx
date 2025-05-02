@@ -24,7 +24,6 @@ async function getMusicVideos() {
 
 const MusicVideos = async() => {
   const onSetCategories = await getMusicVideos();
-  console.log(onSetCategories)
 
   return (
     <>
