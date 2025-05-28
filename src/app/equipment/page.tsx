@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface Role {
-  Category: string;
+  category: string;
   Items: {items:[]};
   documentId: string;
 }
@@ -27,11 +27,11 @@ const Equipment = async() => {
   return (
     <>
       <h1 className="text-4xl font-bold uppercase">Equipment</h1>
-      <ul>
+      <ul className="flex flex-col lg:flex-row">
         {equipmentCategories.data.map((role: Role) => (
-          <li key={role.documentId} className="mt-4">
-            <p className="text-2xl">{role.Category}</p>
-            {role.Items.items.map(item => (<p>- {item}</p>))}
+          <li key={role.documentId} className="mt-4 lg:w-1/3">
+            <p className="text-2xl">{role.category}</p>
+            {role.Items.items.map(item => (<p key={item}>- {item}</p>))}
           </li>))}
       </ul>
     </>

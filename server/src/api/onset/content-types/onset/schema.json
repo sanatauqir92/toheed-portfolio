@@ -11,9 +11,18 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "Category": {
+    "category": {
       "type": "string",
       "required": true
+    },
+    "projects": {
+      "type": "json"
+    },
+    "numberForOrder": {
+      "type": "integer",
+      "required": true,
+      "unique": true,
+      "min": 0
     }
   }
 }

@@ -30,16 +30,27 @@ const Narrative = async () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold uppercase">Narrative</h1>
-      <ul>
+      <h1 className="text-4xl font-bold uppercase mb-4">Narrative</h1>
+
+      <ul className="md:flex gap-1 list-none p-0">
         {narrativeJobs.data.map((job: Job) => (
-          <li key={job.documentId} className="mt-4">
-            <p className="text-2xl">{job.Title} <i>{job.Year}</i></p>
-            <p className="text-xl">Directed by {job.Director}</p>
-            <p className="text-xl">{job.Editor}</p>
-            <p className="text-xl">{job.Accolades}</p>
-            {job.Url && <Link href={job.Url} target='_blank' className="link link-secondary">WATCH IT HERE</Link>}
-          </li>))}
+          <li key={job.documentId} className="flex-none w-full md:w-1/3 flex mb-4">
+              <div className="w-full">
+                {job.Url !== "" && (
+                  <iframe
+                    src={job.Url}
+                    className="w-full aspect-video block mb-2"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                  ></iframe>
+                )}
+                <p className="text-xl">{job.Title} <i>{job.Year}</i></p>
+                <p className="text-lg">📽️ Directed by {job.Director}</p>
+                <p className="text-lg">✏️ {job.Editor}</p>
+                <p className="text-lg">{job.Accolades}</p>
+              </div>
+          </li>
+        ))}
       </ul>
     </>
   )

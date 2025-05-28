@@ -25,7 +25,7 @@ export default function RootLayout({
       <body>
         <div className="bg-white min-h-screen grid grid-rows-[auto_1fr_auto] w-full">
           <Header />
-          <main className="text-black text-xl w-3/4 lg:w-1/2 mx-auto mt-6 overflow-hidden">
+          <main className="text-black text-xl w-3/4 lg:w-2/3 mx-auto mt-6 overflow-hidden">
             {children}
           </main>
         </div>
