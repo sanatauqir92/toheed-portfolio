@@ -1,4 +1,3 @@
-import { Data } from '@strapi/strapi';
 import path from 'path';
 
 type SSLConfig = {
