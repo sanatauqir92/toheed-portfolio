@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface Photo {
   documentId: number; 
   url: string; 
@@ -21,7 +23,7 @@ async function getPhotos() {
 
   const data = await res.json();
 
-  const grid = data.data.grid.map((item: any) => ({
+  const grid = data.data.grid.map((item: Photo) => ({
       alternativeText: item.alternativeText,
       url: generateImageUrl(item.url),
       documentId: item.documentId,
@@ -34,14 +36,17 @@ async function Grid () {
 
   return (
     <div className="columns-2 md:columns-3 gap-3 w-full mb-6">
-      {photos.map((photo: Photo, idx: any) => (
+      {photos.map((photo: Photo) => (
         <div
-          key={photo.documentId ?? idx}
+          key={photo.documentId}
           className="mb-3 break-inside-avoid overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center"
         >
-          <img
+        <Image
             src={photo.url}
             alt={photo.alternativeText ?? "Photo"}
+            width={0}
+            height={0}
+            sizes="100vw"
             className="w-full h-auto object-cover block"
             loading="lazy"
           />

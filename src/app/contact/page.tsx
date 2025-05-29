@@ -26,10 +26,13 @@ const Contact = async () => {
     <>
     <h1 className="text-4xl font-bold uppercase">Contact Me</h1>
     <div className="lg:flex lg:flex-row mt-4">
-      <img
+      <Image
         src={imageUrl}
+        height={0}
+        width={0}
+        sizes="100vw"
         alt="Profile picture"
-        className="mb-4 w-1/4 h-1/4"/>
+        className="mb-4 w-1/2 md:w-1/4 md:h-1/4"/>
       <div className="lg:ml-6">
         <div className="flex flex-row">
           <Link href={profile.data.instagram} target="_blank" rel="noopener noreferrer">
