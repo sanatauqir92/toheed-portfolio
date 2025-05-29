@@ -1,5 +1,7 @@
+import Grid from "./components/Grid";
+
 export default function Home() {
   return (
-    <div className="text-black">Home Page Content coming soon</div>
+    <Grid />
   );
 }

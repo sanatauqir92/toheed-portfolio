@@ -24,7 +24,6 @@ async function getOnset() {
 
 const OnSet = async() => {
   const onSetCategories = await getOnset();
-  console.log(onSetCategories[0])
 
   return (
     <>
@@ -35,7 +34,7 @@ const OnSet = async() => {
           {option.projects && 
             <div className="flex flex-col text-lg gap-1">
               {Object.values(option.projects).map((value, index) => (
-                <ul className="border-2 border-dotted p-4 mt-2 xl:h-40 ">
+                <ul className="border-2 border-dotted p-4 mt-2 xl:h-40" key={index}>
                   <li className="font-bold text-wrap">{value[0]}</li>
                   <li>{value[1]}</li>
                   <li>{value[2]}</li>

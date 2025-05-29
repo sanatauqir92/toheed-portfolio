@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Viewport } from 'next'
 import "./globals.css";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 export const metadata: Metadata = {
   title: "Toheed Chaudhry Portfolio",
@@ -28,6 +29,7 @@ export default function RootLayout({
           <main className="text-black text-xl w-3/4 lg:w-2/3 mx-auto mt-6 overflow-hidden">
             {children}
           </main>
+          <Footer/>
         </div>
       </body>
     </html>

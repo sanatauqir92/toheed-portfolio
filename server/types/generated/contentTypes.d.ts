@@ -525,6 +525,7 @@ export interface ApiEquipmentEquipment extends Struct.CollectionTypeSchema {
       'api::equipment.equipment'
     > &
       Schema.Attribute.Private;
+    Photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -558,6 +559,34 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     siteDescription: Schema.Attribute.Text & Schema.Attribute.Required;
     siteName: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGridGrid extends Struct.SingleTypeSchema {
+  collectionName: 'grids';
+  info: {
+    displayName: 'Grid';
+    pluralName: 'grids';
+    singularName: 'grid';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    grid: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::grid.grid'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -620,6 +649,7 @@ export interface ApiNarrativeNarrative extends Struct.CollectionTypeSchema {
       'api::narrative.narrative'
     > &
       Schema.Attribute.Private;
+    Order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
     Title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -1243,6 +1273,7 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::equipment.equipment': ApiEquipmentEquipment;
       'api::global.global': ApiGlobalGlobal;
+      'api::grid.grid': ApiGridGrid;
       'api::music-video.music-video': ApiMusicVideoMusicVideo;
       'api::narrative.narrative': ApiNarrativeNarrative;
       'api::onset.onset': ApiOnsetOnset;

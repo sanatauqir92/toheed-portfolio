@@ -1,0 +1,24 @@
+{
+  "kind": "singleType",
+  "collectionName": "grids",
+  "info": {
+    "singularName": "grid",
+    "pluralName": "grids",
+    "displayName": "Grid"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "grid": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

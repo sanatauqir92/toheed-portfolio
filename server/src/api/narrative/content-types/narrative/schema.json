@@ -32,6 +32,9 @@
     },
     "Accolades": {
       "type": "string"
+    },
+    "Order": {
+      "type": "integer"
     }
   }
 }
