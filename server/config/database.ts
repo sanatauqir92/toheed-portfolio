@@ -1,9 +1,71 @@
+import { Data } from '@strapi/strapi';
 import path from 'path';
 
-export default ({ env }) => {
+type SSLConfig = {
+  key?: string;
+  cert?: string;
+  ca?: string;
+  capath?: string;
+  cipher?: string;
+  rejectUnauthorized?: boolean;
+} | false;
+
+type MysqlConnection = {
+  host: string;
+  port: number;
+  database: string;
+  user: string;
+  password: string;
+  ssl: SSLConfig;
+};
+
+type PostgresConnection = {
+  connectionString?: string;
+  host: string;
+  port: number;
+  database: string;
+  user: string;
+  password: string;
+  ssl: SSLConfig;
+  schema: string;
+};
+
+type SqliteConnection = {
+  filename: string;
+};
+
+type PoolConfig = {
+  min: number;
+  max: number;
+};
+
+type ConnectionOptions = {
+  mysql: {
+    connection: MysqlConnection;
+    pool: PoolConfig;
+  };
+  postgres: {
+    connection: PostgresConnection;
+    pool: PoolConfig;
+  };
+  sqlite: {
+    connection: SqliteConnection;
+    useNullAsDefault: boolean;
+  };
+};
+
+type DatabaseConfig = {
+  connection: {
+    client: keyof ConnectionOptions;
+    acquireConnectionTimeout: number;
+  } & (ConnectionOptions['mysql'] | ConnectionOptions['postgres'] | ConnectionOptions['sqlite']);
+};
+
+
+export default ({ env }: { env: any }): DatabaseConfig => {
   const client = env('DATABASE_CLIENT', 'sqlite');
 
-  const connections = {
+  const connections: ConnectionOptions = {
     mysql: {
       connection: {
         host: env('DATABASE_HOST', 'localhost'),
@@ -49,7 +111,7 @@ export default ({ env }) => {
       useNullAsDefault: true,
     },
   };
-
+  
   return {
     connection: {
       client,

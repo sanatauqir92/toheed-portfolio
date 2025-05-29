@@ -1,8 +1,17 @@
+import Image from "next/image";
+
 interface Photo {
   documentId: number; 
   url: string; 
   alternativeText: string;
 }
+
+interface GridResponse {
+  data: {
+    grid: Photo[];
+  }
+}
+  
 
 function generateImageUrl(url: string ) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
@@ -19,9 +28,9 @@ async function getPhotos() {
 
   if (!res.ok) throw new Error("Failed to fetch grid photos");
 
-  const data = await res.json();
+  const data: GridResponse = await res.json();
 
-  const grid = data.data.grid.map((item: any) => ({
+  const grid: Photo[] = data.data.grid.map((item: any) => ({
       alternativeText: item.alternativeText,
       url: generateImageUrl(item.url),
       documentId: item.documentId,
@@ -39,9 +48,12 @@ async function Grid () {
           key={photo.documentId ?? idx}
           className="mb-3 break-inside-avoid overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center"
         >
-          <img
+          <Image
             src={photo.url}
             alt={photo.alternativeText ?? "Photo"}
+            width={0}
+            height={0}
+            sizes="100vw"
             className="w-full h-auto object-cover block"
             loading="lazy"
           />

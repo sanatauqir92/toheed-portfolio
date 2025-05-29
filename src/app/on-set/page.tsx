@@ -1,6 +1,4 @@
 import React from 'react'
-import { urlToHttpOptions } from 'url';
-import onset from '../../../server/src/api/onset/controllers/onset';
 
 interface OnSet {
   category: string;
