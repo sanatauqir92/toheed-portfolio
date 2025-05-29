@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 
-
 async function getProfile() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
   const path = "/api/profile?populate=*";
@@ -27,12 +26,10 @@ const Contact = async () => {
     <>
     <h1 className="text-4xl font-bold uppercase">Contact Me</h1>
     <div className="lg:flex lg:flex-row mt-4">
-      <Image
+      <img
         src={imageUrl}
-        width={250}
-        height={250}
         alt="Profile picture"
-        className="mb-4"/>
+        className="mb-4 w-1/4 h-1/4"/>
       <div className="lg:ml-6">
         <div className="flex flex-row">
           <Link href={profile.data.instagram} target="_blank" rel="noopener noreferrer">

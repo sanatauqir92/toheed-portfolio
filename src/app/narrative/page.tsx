@@ -13,13 +13,13 @@ interface Job {
 
 async function getNarrative() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
-  const path = "/api/narratives?sort=Year:desc";
+  const path = "/api/narratives?sort=Order:asc";
 
   const url = new URL(path, baseUrl);
 
   const res = await fetch(url);
 
-  if (!res.ok) throw new Error("Failed to fetch on equipment");
+  if (!res.ok) throw new Error("Failed to fetch on narrative jobs");
 
   const data = await res.json();
   return data;
