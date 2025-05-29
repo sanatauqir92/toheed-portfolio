@@ -6,13 +6,6 @@ interface Photo {
   alternativeText: string;
 }
 
-interface GridResponse {
-  data: {
-    grid: Photo[];
-  }
-}
-  
-
 function generateImageUrl(url: string ) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
   return `${baseUrl}${url}`;
@@ -28,9 +21,9 @@ async function getPhotos() {
 
   if (!res.ok) throw new Error("Failed to fetch grid photos");
 
-  const data: GridResponse = await res.json();
+  const data = await res.json();
 
-  const grid: Photo[] = data.data.grid.map((item: any) => ({
+  const grid = data.data.grid.map((item: Photo) => ({
       alternativeText: item.alternativeText,
       url: generateImageUrl(item.url),
       documentId: item.documentId,
@@ -43,12 +36,12 @@ async function Grid () {
 
   return (
     <div className="columns-2 md:columns-3 gap-3 w-full mb-6">
-      {photos.map((photo: Photo, idx: any) => (
+      {photos.map((photo: Photo) => (
         <div
-          key={photo.documentId ?? idx}
+          key={photo.documentId}
           className="mb-3 break-inside-avoid overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center"
         >
-          <Image
+        <Image
             src={photo.url}
             alt={photo.alternativeText ?? "Photo"}
             width={0}

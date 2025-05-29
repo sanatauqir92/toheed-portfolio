@@ -57,8 +57,9 @@ type ConnectionOptions = {
 type DatabaseConfig = {
   connection: {
     client: keyof ConnectionOptions;
+    connections: ConnectionOptions[keyof ConnectionOptions];
     acquireConnectionTimeout: number;
-  } & (ConnectionOptions['mysql'] | ConnectionOptions['postgres'] | ConnectionOptions['sqlite']);
+  };
 };
 
 
@@ -115,7 +116,7 @@ export default ({ env }: { env: any }): DatabaseConfig => {
   return {
     connection: {
       client,
-      ...connections[client],
+      ...(connections as any)[client],
       acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     },
   };
