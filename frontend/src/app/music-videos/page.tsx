@@ -23,7 +23,7 @@ const MusicVideos: React.FC = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
+        const baseUrl = process.env.STRAPI_API_URL ?? "http://127.0.0.1:1337";
         const path = "/api/music-videos?populate=*";
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());
