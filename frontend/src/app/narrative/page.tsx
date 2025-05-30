@@ -1,6 +1,9 @@
-import React from 'react'
+"use client";
+import Image from 'next/image';
+import React from 'react';
+import { useEffect, useState } from 'react';
 
-interface Job {
+type Job = {
   Director: string;
   Editor: string;
   Title: string;
@@ -10,29 +13,45 @@ interface Job {
   Url: string;
 }
 
-async function getNarrative() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
-  const path = "/api/narratives?sort=Order:asc";
 
-  const url = new URL(path, baseUrl);
+type NarrativeData = {
+  data: [Job]
+};
 
-  const res = await fetch(url);
 
-  if (!res.ok) throw new Error("Failed to fetch on narrative jobs");
+const Narrative: React.FC = () => {
+  const [narrative, setNarrative] = useState<NarrativeData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const data = await res.json();
-  return data;
-}
+  useEffect(() => {
+    const fetchNarrative = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
+        const path = "/api/narratives?sort=Order:asc";
+        const url = new URL(path, baseUrl);
+        const res = await fetch(url.toString());
+        if (!res.ok) throw new Error("Failed to fetch narrative data");
+        const data = await res.json();
+        setNarrative(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNarrative();
+  }, []);
 
-const Narrative = async () => {
-  const narrativeJobs = await getNarrative();
+  if (loading) return <div>Loading...</div>;
+  if (error || !narrative) return <div>Error: {error ?? "No Equipment data"}</div>;
 
   return (
     <>
       <h1 className="text-4xl font-bold uppercase mb-4">Narrative</h1>
 
       <ul className="md:flex gap-1 list-none p-0">
-        {narrativeJobs.data.map((job: Job) => (
+        {narrative.data.map((job: Job) => (
           <li key={job.documentId} className="flex-none w-full md:w-1/3 flex mb-4">
               <div className="w-full">
                 {job.Url !== "" && (

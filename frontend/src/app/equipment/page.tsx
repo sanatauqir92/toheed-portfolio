@@ -32,7 +32,6 @@ const Equipment: React.FC = () => {
         const res = await fetch(url.toString());
         if (!res.ok) throw new Error("Failed to fetch equipment data");
         const data = await res.json();
-        console.log(data);
         setEquipment(data);
       } catch (err: any) {
         setError(err.message);
