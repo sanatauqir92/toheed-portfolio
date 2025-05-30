@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@netlify/plugin-nextjs": "^5.11.2",
     "@strapi/types": "^5.14.0",
     "@strapi/typescript-utils": "^5.14.0",
     "@tailwindcss/postcss": "^4",
