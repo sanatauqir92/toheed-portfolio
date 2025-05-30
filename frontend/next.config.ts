@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: process.env.STRAPI_API_URL ?? "",
+        hostname: process.env.NEXT_PUBLIC_STRAPI_API_URL ?? "",
       },
     ],
   },

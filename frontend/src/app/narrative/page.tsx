@@ -26,7 +26,7 @@ const Narrative: React.FC = () => {
   useEffect(() => {
     const fetchNarrative = async () => {
       try {
-        const baseUrl = process.env.STRAPI_API_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
         const path = "/api/narratives?sort=Order:asc";
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());

@@ -20,7 +20,7 @@ const OnSet: React.FC = () => {
   useEffect(() => {
     const fetchEquipment = async () => {
       try {
-        const baseUrl = process.env.STRAPI_API_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
         const path = "/api/onsets?sort=numberForOrder:asc";
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());

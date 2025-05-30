@@ -20,7 +20,7 @@ const Contact: React.FC = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const baseUrl = process.env.STRAPI_API_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
         const path = "/api/profile?populate=*";
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());
@@ -39,7 +39,7 @@ const Contact: React.FC = () => {
   if (loading) return <div>Loading...</div>;
   if (error || !profile) return <div>Error: {error ?? "No profile data"}</div>;
 
-  const imageUrl = `${process.env.STRAPI_API_URL}${profile.data.image.url}`;
+  const imageUrl = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${profile.data.image.url}`;
 
   return (
     <>

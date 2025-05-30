@@ -15,14 +15,15 @@ const Grid: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   function generateImageUrl(url: string ) {
-    const baseUrl = process.env.STRAPI_API_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
     return `${baseUrl}${url}`;
   }
 
   useEffect(() => {
     const fetchEquipment = async () => {
       try {
-        const baseUrl = process.env.STRAPI_API_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+        console.log(baseUrl)
         const path = "/api/grid?populate=*";
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());

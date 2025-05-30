@@ -26,7 +26,7 @@ const Equipment: React.FC = () => {
   useEffect(() => {
     const fetchEquipment = async () => {
       try {
-        const baseUrl = process.env.STRAPI_API_URL;
+        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
         const path = "/api/equipments?populate=*";
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());
@@ -43,7 +43,7 @@ const Equipment: React.FC = () => {
   }, []);
 
   function generateImageUrl(url: string ) {
-    const baseUrl = process.env.STRAPI_API_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
     return `${baseUrl}${url}`;
   }
 
