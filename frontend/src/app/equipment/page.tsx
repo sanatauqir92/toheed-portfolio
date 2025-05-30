@@ -1,7 +1,9 @@
-import React from 'react'
-import Image from "next/image";
+"use client";
+import Image from 'next/image';
+import React from 'react';
+import { useEffect, useState } from 'react';
 
-interface Role {
+type Role = {
   Category: string;
   Items: {items:[]};
   Photo: {
@@ -11,34 +13,49 @@ interface Role {
   documentId: string;
 }
 
-async function getEquipment() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
-  const path = "/api/equipments?populate=*";
+type EquipmentData = {
+  data: [Role]
+};
 
-  const url = new URL(path, baseUrl);
 
-  const res = await fetch(url);
+const Equipment: React.FC = () => {
+  const [equipment, setEquipment] = useState<EquipmentData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!res.ok) throw new Error("Failed to fetch on equipment");
+  useEffect(() => {
+    const fetchEquipment = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
+        const path = "/api/equipments?populate=*";
+        const url = new URL(path, baseUrl);
+        const res = await fetch(url.toString());
+        if (!res.ok) throw new Error("Failed to fetch equipment data");
+        const data = await res.json();
+        console.log(data);
+        setEquipment(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEquipment();
+  }, []);
 
-  const data = await res.json();
+  function generateImageUrl(url: string ) {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
+    return `${baseUrl}${url}`;
+  }
 
-  return data;
-}
-
-function generateImageUrl(url: string ) {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:1337";
-  return `${baseUrl}${url}`;
-}
-
-const Equipment = async() => {
-  const equipmentCategories = await getEquipment();
+  if (loading) return <div>Loading...</div>;
+  if (error || !equipment) return <div>Error: {error ?? "No Equipment data"}</div>;
 
   return (
     <>
       <h1 className="text-4xl font-bold uppercase">Equipment</h1>
       <ul className="flex flex-col gap-4 md:flex-row">
-        {equipmentCategories.data.map((role: Role) => (
+        {equipment.data.map((role: Role) => (
           <li key={role.documentId} className="mt-4 lg:w-1/3">
             <Image src={generateImageUrl(role.Photo.url)} alt={role.Photo.alternativeText} 
               width={0}
