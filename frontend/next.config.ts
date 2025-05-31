@@ -8,8 +8,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: process.env.NEXT_PUBLIC_STRAPI_API_URL?.toString() || "localhost",
+      },
+      {
         protocol: 'http',
-        hostname: process.env.NEXT_PUBLIC_STRAPI_API_URL ?? "",
+        hostname: "127.0.0.1",
       },
     ],
   },
