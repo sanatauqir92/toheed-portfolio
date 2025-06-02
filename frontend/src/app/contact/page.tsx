@@ -38,8 +38,8 @@ const Contact: React.FC = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error || !profile) return <div>Error: {error ?? "No profile data"}</div>;
-
-  const imageUrl = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${profile.data.image.url}`;
+  console.log(profile.data.image.url);
+  const imageUrl = `${profile.data.image.url}`;
 
   return (
     <>
