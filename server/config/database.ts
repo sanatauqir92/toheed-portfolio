@@ -9,15 +9,6 @@ type SSLConfig = {
   rejectUnauthorized?: boolean;
 } | false;
 
-type MysqlConnection = {
-  host: string;
-  port: number;
-  database: string;
-  user: string;
-  password: string;
-  ssl: SSLConfig;
-};
-
 type PostgresConnection = {
   connectionString?: string;
   host: string;
@@ -39,10 +30,6 @@ type PoolConfig = {
 };
 
 type ConnectionOptions = {
-  mysql: {
-    connection: MysqlConnection;
-    pool: PoolConfig;
-  };
   postgres: {
     connection: PostgresConnection;
     pool: PoolConfig;
@@ -58,40 +45,25 @@ type DatabaseConfig = {
     client: keyof ConnectionOptions;
     connections: ConnectionOptions[keyof ConnectionOptions];
     acquireConnectionTimeout: number;
-  };
+  },
+  settings: {
+    forceMigration: boolean;
+  }
 };
 
 
 export default ({ env }: { env: any }): DatabaseConfig => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+  const client = env('DATABASE_CLIENT', process.env.DATABASE_CLIENT) as keyof ConnectionOptions;
 
   const connections: ConnectionOptions = {
-    mysql: {
-      connection: {
-        host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 3306),
-        database: env('DATABASE_NAME', 'strapi'),
-        user: env('DATABASE_USERNAME', 'strapi'),
-        password: env('DATABASE_PASSWORD', 'strapi'),
-        ssl: env.bool('DATABASE_SSL', false) && {
-          key: env('DATABASE_SSL_KEY', undefined),
-          cert: env('DATABASE_SSL_CERT', undefined),
-          ca: env('DATABASE_SSL_CA', undefined),
-          capath: env('DATABASE_SSL_CAPATH', undefined),
-          cipher: env('DATABASE_SSL_CIPHER', undefined),
-          rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', true),
-        },
-      },
-      pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
-    },
     postgres: {
       connection: {
         connectionString: env('DATABASE_URL'),
         host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 5432),
-        database: env('DATABASE_NAME', 'strapi'),
-        user: env('DATABASE_USERNAME', 'strapi'),
-        password: env('DATABASE_PASSWORD', 'strapi'),
+        port: env.int('DATABASE_PORT', process.env.DATABASE_PORT),
+        database: env('DATABASE_NAME', process.env.DATABASE_NAME),
+        user: env('DATABASE_USERNAME', process.env.DATABASE_USERNAME),
+        password: env('DATABASE_PASSWORD', process.env.DATABASE_PASSWORD),
         ssl: env.bool('DATABASE_SSL', false) && {
           key: env('DATABASE_SSL_KEY', undefined),
           cert: env('DATABASE_SSL_CERT', undefined),
@@ -118,5 +90,8 @@ export default ({ env }: { env: any }): DatabaseConfig => {
       ...(connections as any)[client],
       acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     },
+    settings: {
+      forceMigration: env('NODE_ENV') === 'production' ? false : true,
+    }
   };
 };
