@@ -6,10 +6,6 @@ import { useEffect, useState } from 'react';
 type Role = {
   Category: string;
   Items: {items:[]};
-  Photo: {
-    url: string;
-    alternativeText: string;
-  };
   documentId: string;
 }
 
@@ -42,25 +38,35 @@ const Equipment: React.FC = () => {
     fetchEquipment();
   }, []);
 
-  function generateImageUrl(url: string ) {
-    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-    return `${baseUrl}${url}`;
-  }
-
   if (loading) return <div>Loading...</div>;
   if (error || !equipment) return <div>Error: {error ?? "No Equipment data"}</div>;
 
   return (
     <>
       <h1 className="text-4xl font-bold uppercase">Equipment</h1>
+      <div className="flex flex-col md:flex-row gap-4 my-8">
+        <div className="flex">
+          <Image
+            src="/slatecut.png"
+            alt="Equipment 1"
+          height={150}
+          width={200}
+            className="rounded shadow"
+          />
+        </div>
+        <div className="flex">
+          <Image
+            src="/laptop.png"
+            alt="Equipment 2"
+         height={150}
+          width={200}
+            className="rounded shadow"
+          />
+        </div>
+      </div>
       <ul className="flex flex-col gap-4 md:flex-row">
         {equipment.data.map((role: Role) => (
           <li key={role.documentId} className="mt-4 lg:w-1/3">
-            <Image src={generateImageUrl(role.Photo.url)} alt={role.Photo.alternativeText} 
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-50 h-70 mb-2" />
             <p className="text-2xl">{role.Category}</p>
             {role.Items.items.map(item => (<p key={item}>- {item}</p>))}
           </li>))}

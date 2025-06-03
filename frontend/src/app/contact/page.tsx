@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 type ProfileData = {
   data: {
-    image: { url: string };
     instagram: string;
     letterboxd: string;
     email: string;
@@ -38,14 +37,13 @@ const Contact: React.FC = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error || !profile) return <div>Error: {error ?? "No profile data"}</div>;
-  const imageUrl = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${profile.data.image.url}`;
 
   return (
     <>
       <h1 className="text-4xl font-bold uppercase">Contact Me</h1>
       <div className="lg:flex lg:flex-row mt-4">
         <Image
-          src={imageUrl}
+          src="/toheed_profile.jpg"
           height={0}
           width={0}
           sizes="100vw"
@@ -54,22 +52,22 @@ const Contact: React.FC = () => {
         />
         <div className="lg:ml-6">
           <div className="flex flex-row">
-            <Link href={profile.data.instagram} target="_blank" rel="noopener noreferrer">
-              <Image
-                src="/ig_icon.png"
-                width={50}
-                height={50}
-                alt="Instagram profile"
-              />
-            </Link>
-            <Link href={profile.data.letterboxd} target="_blank" rel="noopener noreferrer" className="ml-2">
-              <Image
-                src="/letterboxd_icon.png"
-                width={50}
-                height={50}
-                alt="Letterboxd profile"
-              />
-            </Link>
+        <Link href={profile.data.instagram} target="_blank" rel="noopener noreferrer">
+          <Image
+            src="/ig_icon.png"
+            width={50}
+            height={50}
+            alt="Instagram profile"
+          />
+        </Link>
+        <Link href={profile.data.letterboxd} target="_blank" rel="noopener noreferrer" className="ml-2">
+          <Image
+            src="/letterboxd_icon.png"
+            width={50}
+            height={50}
+            alt="Letterboxd profile"
+          />
+        </Link>
           </div>
           <p className="mt-4">Email me at: <a href={`mailto:${profile.data.email}`}>{profile.data.email}</a></p>
           <p className="mt-4">Located in the Orange County / Los Angeles Area</p>

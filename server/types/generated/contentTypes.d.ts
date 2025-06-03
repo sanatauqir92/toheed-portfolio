@@ -525,7 +525,6 @@ export interface ApiEquipmentEquipment extends Struct.CollectionTypeSchema {
       'api::equipment.equipment'
     > &
       Schema.Attribute.Private;
-    Photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

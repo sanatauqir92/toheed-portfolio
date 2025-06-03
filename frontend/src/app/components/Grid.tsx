@@ -3,60 +3,30 @@ import Image from 'next/image';
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-type Photo  = {
-  documentId: number; 
-  url: string; 
-  alternativeText: string;
-}
+const photos = [
+  '/toheedcamera.png',
+  '/coolcamera.png',
+  '/actcasual.jpg',
+  '/leaning.jpg',
+  '/umbrella.jpg',
+  '/carcamera.jpg',
+  '/greenbackground.jpg',
+  '/cat.png',
+  '/scene.jpg'
+]
 
 const Grid: React.FC = () => {
-  const [grid, setGrid] = useState<Photo[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  function generateImageUrl(url: string ) {
-    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-    return `${baseUrl}${url}`;
-  }
-
-  useEffect(() => {
-    const fetchEquipment = async () => {
-      try {
-        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-        console.log(baseUrl)
-        const path = "/api/grid?populate=*";
-        const url = new URL(path, baseUrl);
-        const res = await fetch(url.toString());
-        if (!res.ok) throw new Error("Failed to fetch grid data");
-        const data = await res.json();
-        const grid = data.data.grid.map((item: Photo) => ({
-          alternativeText: item.alternativeText,
-          url: generateImageUrl(item.url),
-          documentId: item.documentId,
-        }))
-        setGrid(grid);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEquipment();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error || !grid) return <div>Error: {error ?? "No grid data"}</div>;
 
   return (
     <div className="columns-2 md:columns-3 gap-3 w-full mb-6">
-      {grid.map((photo: Photo) => (
+      {photos.map((photo: string, index) => (
         <div
-          key={photo.documentId}
+          key={index}
           className="mb-3 break-inside-avoid overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center"
         >
         <Image
-            src={photo.url}
-            alt={photo.alternativeText ?? "Photo"}
+            src={photo}
+            alt={"Photo"}
             width={0}
             height={0}
             sizes="100vw"
