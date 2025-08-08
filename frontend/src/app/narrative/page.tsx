@@ -47,7 +47,7 @@ const Narrative: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold uppercase mb-4">Narrative</h1>
+      <h1 className="text-3xl font-bold uppercase mb-4">Editing Work</h1>
 
       <ul className="md:flex gap-1 list-none p-0">
         {narrative.data.map((job: Job) => (
@@ -63,7 +63,7 @@ const Narrative: React.FC = () => {
                 )}
                 <p className="text-xl">{job.Title} <i>{job.Year}</i></p>
                 <p className="text-lg">📽️ Directed by {job.Director}</p>
-                <p className="text-lg">✏️ {job.Editor}</p>
+                <p className="text-lg">✂️ {job.Editor}</p>
                 <p className="text-lg">{job.Accolades}</p>
               </div>
           </li>

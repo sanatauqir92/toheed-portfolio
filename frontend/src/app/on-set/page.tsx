@@ -41,7 +41,7 @@ const OnSet: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold uppercase">ON SET</h1>
+      <h1 className="text-3xl font-bold uppercase">ON SET</h1>
       <ul className="flex flex-col lg:flex-row justify-between gap-2">
         {onset.data.map((option: OnSet) => (
           <li key={option.documentId} className="text-3xl lg:1/3 mt-2 justify-between uppercase">{option.category}

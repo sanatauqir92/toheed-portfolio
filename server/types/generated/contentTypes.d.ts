@@ -592,37 +592,6 @@ export interface ApiGridGrid extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiMusicVideoMusicVideo extends Struct.CollectionTypeSchema {
-  collectionName: 'music_videos';
-  info: {
-    displayName: 'Music Video';
-    pluralName: 'music-videos';
-    singularName: 'music-video';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    Director: Schema.Attribute.String;
-    Editor: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::music-video.music-video'
-    > &
-      Schema.Attribute.Private;
-    Notes: Schema.Attribute.Text;
-    publishedAt: Schema.Attribute.DateTime;
-    Title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiNarrativeNarrative extends Struct.CollectionTypeSchema {
   collectionName: 'narratives';
   info: {
@@ -1273,7 +1242,6 @@ declare module '@strapi/strapi' {
       'api::equipment.equipment': ApiEquipmentEquipment;
       'api::global.global': ApiGlobalGlobal;
       'api::grid.grid': ApiGridGrid;
-      'api::music-video.music-video': ApiMusicVideoMusicVideo;
       'api::narrative.narrative': ApiNarrativeNarrative;
       'api::onset.onset': ApiOnsetOnset;
       'api::profile.profile': ApiProfileProfile;

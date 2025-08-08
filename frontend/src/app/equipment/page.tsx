@@ -43,34 +43,25 @@ const Equipment: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold uppercase">Equipment</h1>
-      <div className="flex flex-col md:flex-row gap-4 my-8">
-        <div className="flex">
+      <h1 className="text-3xl font-bold uppercase">Equipment</h1>
+      <div className="flex flex-col md:flex-row gap-4 my-4">
+        <div className="relative w-full h-48 md:w-1/3 md:h-64 overflow-hidden">
           <Image
-            src="/slatecut.png"
+            src="/allEquipment.jpeg"
             alt="Equipment 1"
-          height={150}
-          width={200}
+            fill={true}
+            objectFit='contain'
             className="rounded shadow"
           />
         </div>
-        <div className="flex">
-          <Image
-            src="/laptop.png"
-            alt="Equipment 2"
-         height={150}
-          width={200}
-            className="rounded shadow"
-          />
-        </div>
+        <ul className="flex flex-col gap-4">
+          {equipment.data.map((role: Role) => (
+            <li key={role.documentId}>
+              <p className="text-2xl">{role.Category}</p>
+              <div className="flex flex-row gap-2 flex-wrap">{role.Items.items.map(item => (<p className="rounded-4xl bg-green-400 py-1 px-3 text-lg" key={item}>{item}</p>))}</div>
+            </li>))}
+        </ul>
       </div>
-      <ul className="flex flex-col gap-4 md:flex-row">
-        {equipment.data.map((role: Role) => (
-          <li key={role.documentId} className="mt-4 lg:w-1/3">
-            <p className="text-2xl">{role.Category}</p>
-            {role.Items.items.map(item => (<p key={item}>- {item}</p>))}
-          </li>))}
-      </ul>
     </>
   )
 }

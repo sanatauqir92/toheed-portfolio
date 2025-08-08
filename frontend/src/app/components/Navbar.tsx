@@ -6,16 +6,12 @@ const routes = [
     path: "/",
   },
   {
-    name: "Narrative",
+    name: "Editing",
     path: "/narrative",
   },
   {
     name: "On Set",
     path: "/on-set",
-  },
-  {
-    name: "Music Videos",
-    path: "/music-videos",
   },
   {
     name: "Equipment",
