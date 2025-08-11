@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Image from 'next/image';
 import React from 'react';
 
@@ -11,11 +11,10 @@ const photos = [
   '/carcamera.jpg',
   '/greenbackground.jpg',
   '/cat.png',
-  '/scene.jpg'
-]
+  '/scene.jpg',
+];
 
 const Grid: React.FC = () => {
-
   return (
     <div className="columns-2 md:columns-3 gap-3 w-full mb-6">
       {photos.map((photo: string, index) => (
@@ -23,9 +22,9 @@ const Grid: React.FC = () => {
           key={index}
           className="mb-3 break-inside-avoid overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center"
         >
-        <Image
+          <Image
             src={photo}
-            alt={"Photo"}
+            alt={'Photo'}
             width={0}
             height={0}
             sizes="100vw"
@@ -36,6 +35,6 @@ const Grid: React.FC = () => {
       ))}
     </div>
   );
-}
+};
 
 export default Grid;

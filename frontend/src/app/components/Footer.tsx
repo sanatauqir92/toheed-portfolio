@@ -1,8 +1,5 @@
-"use client";
+'use client';
 
 export default function Footer() {
-  
-  return (
-    <div className="h-20"/>
-  );
+  return <div className="h-20" />;
 }

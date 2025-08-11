@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
@@ -20,10 +20,10 @@ const Contact: React.FC = () => {
     const fetchProfile = async () => {
       try {
         const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-        const path = "/api/profile?populate=*";
+        const path = '/api/profile?populate=*';
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());
-        if (!res.ok) throw new Error("Failed to fetch profile data");
+        if (!res.ok) throw new Error('Failed to fetch profile data');
         const data = await res.json();
         setProfile(data);
       } catch (err: any) {
@@ -36,7 +36,7 @@ const Contact: React.FC = () => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error || !profile) return <div>Error: {error ?? "No profile data"}</div>;
+  if (error || !profile) return <div>Error: {error ?? 'No profile data'}</div>;
 
   return (
     <>
@@ -52,29 +52,43 @@ const Contact: React.FC = () => {
         />
         <div className="lg:ml-6">
           <div className="flex flex-row">
-        <Link href={profile.data.instagram} target="_blank" rel="noopener noreferrer">
-          <Image
-            src="/ig_icon.png"
-            width={50}
-            height={50}
-            alt="Instagram profile"
-          />
-        </Link>
-        <Link href={profile.data.letterboxd} target="_blank" rel="noopener noreferrer" className="ml-2">
-          <Image
-            src="/letterboxd_icon.png"
-            width={50}
-            height={50}
-            alt="Letterboxd profile"
-          />
-        </Link>
+            <Link
+              href={profile.data.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/ig_icon.png"
+                width={50}
+                height={50}
+                alt="Instagram profile"
+              />
+            </Link>
+            <Link
+              href={profile.data.letterboxd}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2"
+            >
+              <Image
+                src="/letterboxd_icon.png"
+                width={50}
+                height={50}
+                alt="Letterboxd profile"
+              />
+            </Link>
           </div>
-          <p className="mt-4">Email me at: <a href={`mailto:${profile.data.email}`}>{profile.data.email}</a></p>
-          <p className="mt-4">Located in the Orange County / Los Angeles Area</p>
+          <p className="mt-4">
+            Email me at:{' '}
+            <a href={`mailto:${profile.data.email}`}>{profile.data.email}</a>
+          </p>
+          <p className="mt-4">
+            Located in the Orange County / Los Angeles Area
+          </p>
         </div>
       </div>
     </>
   );
 };
 
-export default Contact
+export default Contact;
