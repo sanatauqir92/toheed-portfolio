@@ -1,18 +1,17 @@
-"use client";
+'use client';
 import Image from 'next/image';
 import React from 'react';
 import { useEffect, useState } from 'react';
 
 type Role = {
   Category: string;
-  Items: {items:[]};
+  Items: { items: [] };
   documentId: string;
-}
-
-type EquipmentData = {
-  data: [Role]
 };
 
+type EquipmentData = {
+  data: [Role];
+};
 
 const Equipment: React.FC = () => {
   const [equipment, setEquipment] = useState<EquipmentData | null>(null);
@@ -23,10 +22,10 @@ const Equipment: React.FC = () => {
     const fetchEquipment = async () => {
       try {
         const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-        const path = "/api/equipments?populate=*";
+        const path = '/api/equipments?populate=*';
         const url = new URL(path, baseUrl);
         const res = await fetch(url.toString());
-        if (!res.ok) throw new Error("Failed to fetch equipment data");
+        if (!res.ok) throw new Error('Failed to fetch equipment data');
         const data = await res.json();
         setEquipment(data);
       } catch (err: any) {
@@ -39,7 +38,8 @@ const Equipment: React.FC = () => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error || !equipment) return <div>Error: {error ?? "No Equipment data"}</div>;
+  if (error || !equipment)
+    return <div>Error: {error ?? 'No Equipment data'}</div>;
 
   return (
     <>
@@ -50,7 +50,7 @@ const Equipment: React.FC = () => {
             src="/allEquipment.jpeg"
             alt="Equipment 1"
             fill={true}
-            objectFit='contain'
+            objectFit="contain"
             className="rounded shadow"
           />
         </div>
@@ -58,12 +58,22 @@ const Equipment: React.FC = () => {
           {equipment.data.map((role: Role) => (
             <li key={role.documentId}>
               <p className="text-2xl">{role.Category}</p>
-              <div className="flex flex-row gap-2 flex-wrap">{role.Items.items.map(item => (<p className="rounded-4xl bg-green-400 py-1 px-3 text-lg" key={item}>{item}</p>))}</div>
-            </li>))}
+              <div className="flex flex-row gap-2 flex-wrap">
+                {role.Items.items.map((item) => (
+                  <p
+                    className="rounded-4xl bg-green-400 py-1 px-3 text-lg"
+                    key={item}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Equipment
+export default Equipment;

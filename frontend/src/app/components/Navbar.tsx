@@ -1,30 +1,29 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 const routes = [
   {
-    name: "Home",
-    path: "/",
+    name: 'Home',
+    path: '/',
   },
   {
-    name: "Editing",
-    path: "/narrative",
+    name: 'Editing',
+    path: '/narrative',
   },
   {
-    name: "On Set",
-    path: "/on-set",
+    name: 'On Set',
+    path: '/on-set',
   },
   {
-    name: "Equipment",
-    path: "/equipment",
+    name: 'Equipment',
+    path: '/equipment',
   },
   {
-    name: "Contact",
-    path: "/contact",
+    name: 'Contact',
+    path: '/contact',
   },
 ];
 
-
-export default function Navbar () {
+export default function Navbar() {
   return (
     <div>
       <div className="dropdown flex justify-center">
@@ -36,7 +35,12 @@ export default function Navbar () {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </label>
         <ul
@@ -44,19 +48,23 @@ export default function Navbar () {
           className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
         >
           {routes.map((route) => (
-          <Link href={route.path} key={route.name} className="px-2 link-primary">
-            {route.name} 
-          </Link>
-        ))} 
+            <Link
+              href={route.path}
+              key={route.name}
+              className="px-2 link-primary"
+            >
+              {route.name}
+            </Link>
+          ))}
         </ul>
       </div>
       <ul className="hidden lg:flex flex-row justify-between text-xl mt-8">
         {routes.map((route) => (
           <Link href={route.path} key={route.name} className="link-primary">
-            {route.name} 
+            {route.name}
           </Link>
         ))}
       </ul>
     </div>
-  )
+  );
 }
