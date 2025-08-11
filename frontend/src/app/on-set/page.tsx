@@ -9,13 +9,13 @@ type OnSet = {
 };
 
 type Project = {
-  url?: string,
+  url?: string;
   title: string;
   length: string;
   description: string;
   accolades: string;
   additionalInfo?: string;
-}
+};
 
 type SetData = {
   data: OnSet[];
@@ -65,13 +65,29 @@ const OnSet: React.FC = () => {
                     className="border-2 border-dashed border-amber-900 p-2 mt-2"
                     key={index}
                   >
-                    {project.url ? <a href={project.url} target="_blank" rel="noopener noreferrer">
-                      <li className="font-bold text-wrap hover:text-blue-800">{project.title}</li></a> : 
-                      <li className="font-bold text-wrap hover:text-blue-800">{project.title}</li>}
+                    {project.url ? (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <li className="font-bold text-wrap hover:text-blue-800">
+                          {project.title}
+                        </li>
+                      </a>
+                    ) : (
+                      <li className="font-bold text-wrap hover:text-blue-800">
+                        {project.title}
+                      </li>
+                    )}
                     <li>{project.length}</li>
                     <li>{project.description}</li>
                     <li className="font-bold">{project.accolades}</li>
-                    {project.additionalInfo ? <li className="float-end text-blue-800">{project.additionalInfo}</li> : null }
+                    {project.additionalInfo ? (
+                      <li className="float-end text-blue-800">
+                        {project.additionalInfo}
+                      </li>
+                    ) : null}
                   </ul>
                 ))}
               </div>
@@ -79,7 +95,7 @@ const OnSet: React.FC = () => {
           </li>
         )}
 
-         {onset.data[1] && (
+        {onset.data[1] && (
           <li
             key={onset.data[1].documentId}
             className="text-xl lg:w-1/3 mt-2 justify-between uppercase"
@@ -92,9 +108,19 @@ const OnSet: React.FC = () => {
                     className="border-2 border-dashed border-amber-900 p-2 mt-2"
                     key={index}
                   >
-                    {project.url && project.url.length != 0 ? <a href={project.url} target="_blank" rel="noopener noreferrer">
-                      <li className="font-bold text-wrap hover:text-blue-800">{project.title}</li></a> : 
-                      <li className="font-bold text-wrap">{project.title}</li>}
+                    {project.url && project.url.length != 0 ? (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <li className="font-bold text-wrap hover:text-blue-800">
+                          {project.title}
+                        </li>
+                      </a>
+                    ) : (
+                      <li className="font-bold text-wrap">{project.title}</li>
+                    )}
                     <li>{project.length}</li>
                     <li>{project.description}</li>
                     <li className="font-bold">{project.accolades}</li>
@@ -112,17 +138,27 @@ const OnSet: React.FC = () => {
               {option.projects && (
                 <div className="flex flex-col text-lg gap-1">
                   {option.projects.map((project, index) => (
-                  <ul
-                    className="border-2 border-dashed border-amber-900 p-2 mt-2"
-                    key={index}
-                  >
-                    {project.url && project.url.length != 0 ? <a href={project.url} target="_blank" rel="noopener noreferrer">
-                      <li className="font-bold text-wrap hover:text-blue-800">{project.title}</li></a> : 
-                      <li className="font-bold text-wrap">{project.title}</li>}
-                    <li>{project.length}</li>
-                    <li>{project.description}</li>
-                    <li className="font-bold">{project.accolades}</li>
-                  </ul>
+                    <ul
+                      className="border-2 border-dashed border-amber-900 p-2 mt-2"
+                      key={index}
+                    >
+                      {project.url && project.url.length != 0 ? (
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <li className="font-bold text-wrap hover:text-blue-800">
+                            {project.title}
+                          </li>
+                        </a>
+                      ) : (
+                        <li className="font-bold text-wrap">{project.title}</li>
+                      )}
+                      <li>{project.length}</li>
+                      <li>{project.description}</li>
+                      <li className="font-bold">{project.accolades}</li>
+                    </ul>
                   ))}
                 </div>
               )}
