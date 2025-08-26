@@ -11,8 +11,8 @@ const routes = [
     path: '/narrative',
   },
   {
-    name: 'On Set',
-    path: '/on-set',
+    name: 'Credits',
+    path: '/credits',
   },
   {
     name: 'Equipment',

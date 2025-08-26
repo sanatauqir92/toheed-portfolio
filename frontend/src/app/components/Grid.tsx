@@ -14,6 +14,8 @@ const photos = [
   '/scene.jpg',
 ];
 
+const VISIBLE_ITEMS_COUNT = 3;
+
 const Grid: React.FC = () => {
   return (
     <div className="columns-2 md:columns-3 gap-3 w-full mb-6">
@@ -29,7 +31,7 @@ const Grid: React.FC = () => {
             height={0}
             sizes="100vw"
             className="w-full h-auto object-cover block"
-            loading="lazy"
+            priority={index < VISIBLE_ITEMS_COUNT}
           />
         </div>
       ))}
