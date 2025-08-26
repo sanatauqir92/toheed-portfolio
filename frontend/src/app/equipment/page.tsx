@@ -45,13 +45,12 @@ const Equipment: React.FC = () => {
     <>
       <h1 className="text-3xl font-bold uppercase">Equipment</h1>
       <div className="flex flex-col md:flex-row gap-4 my-4">
-        <div className="relative w-full h-48 md:w-1/3 md:h-64 overflow-hidden">
+        <div className="relative w-full h-48 md:w-1/3 md:h-64">
           <Image
             src="/allEquipment.jpeg"
             alt="Equipment 1"
             fill={true}
             objectFit="contain"
-            className="rounded shadow"
           />
         </div>
         <ul className="flex flex-col gap-4">
