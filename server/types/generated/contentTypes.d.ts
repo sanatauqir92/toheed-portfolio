@@ -606,11 +606,13 @@ export interface ApiNarrativeNarrative extends Struct.CollectionTypeSchema {
   attributes: {
     Accolades: Schema.Attribute.String;
     Additional: Schema.Attribute.Text;
+    Category: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     Director: Schema.Attribute.String;
     Editor: Schema.Attribute.String;
+    imageUrl: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
