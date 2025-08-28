@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { IoEllipsisVerticalCircle } from "react-icons/io5";
+import { IoEllipsisVerticalCircle } from 'react-icons/io5';
 
 type OnSet = {
-  category: string;
+  category: string /*  */;
   documentId: string;
   projects: Project[];
 };
@@ -25,7 +25,9 @@ const Credits: React.FC = () => {
   const [onset, setOnset] = useState<SetData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleProjects, setVisibleProjects] = useState<{[key: string]: number}>({});
+  const [visibleProjects, setVisibleProjects] = useState<{
+    [key: string]: number;
+  }>({});
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -37,9 +39,9 @@ const Credits: React.FC = () => {
         if (!res.ok) throw new Error('Failed to fetch credits data');
         const data = await res.json();
         setOnset(data);
-        
+
         // Initialize visible projects count for each category
-        const initialVisible: {[key: string]: number} = {};
+        const initialVisible: { [key: string]: number } = {};
         data.data.forEach((option: OnSet) => {
           initialVisible[option.category] = 5;
         });
@@ -54,9 +56,9 @@ const Credits: React.FC = () => {
   }, []);
 
   const showMoreProjects = (category: string) => {
-    setVisibleProjects(prev => ({
+    setVisibleProjects((prev) => ({
       ...prev,
-      [category]: (prev[category] || 5) + 5
+      [category]: (prev[category] || 5) + 5,
     }));
   };
 
@@ -94,9 +96,7 @@ const Credits: React.FC = () => {
                           </li>
                         </a>
                       ) : (
-                        <li className="font-bold text-wrap">
-                          {project.title}
-                        </li>
+                        <li className="font-bold text-wrap">{project.title}</li>
                       )}
                       <li>{project.length}</li>
                       <li>{project.description}</li>
@@ -108,14 +108,15 @@ const Credits: React.FC = () => {
                       ) : null}
                     </ul>
                   ))}
-                {onset.data[0].projects.length > (visibleProjects[onset.data[0].category] || 5) && (
-                  
-                    <button
+                {onset.data[0].projects.length >
+                  (visibleProjects[onset.data[0].category] || 5) && (
+                  <button
                     className="flex flex-col items-center text-amber-950 hover:cursor-pointer hover:text-blue-800"
                     onClick={() => showMoreProjects(onset.data[0].category)}
-                    >
-                    <p className="text-sm">See More</p><IoEllipsisVerticalCircle className="text-4xl" />
-                    </button>
+                  >
+                    <p className="text-sm">See More</p>
+                    <IoEllipsisVerticalCircle className="text-4xl" />
+                  </button>
                 )}
               </div>
             )}

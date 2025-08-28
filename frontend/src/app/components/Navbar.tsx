@@ -26,7 +26,7 @@ const routes = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  
+
   return (
     <div className="relative z-20">
       {/* Hamburger button - centered on mobile */}
@@ -52,10 +52,12 @@ export default function Navbar() {
           </svg>
         </button>
       </div>
- 
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-        open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-      }`}>
+
+      <div
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
         <div className="bg-[#211814] w-full p-6 flex flex-col gap-2 mt-2 rounded-lg shadow-lg">
           {routes.map((route) => (
             <Link
