@@ -47,7 +47,7 @@ const Equipment: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-4 my-4">
         <div className="relative w-full h-48 md:w-1/3 md:h-64">
           <Image
-            src="/allEquipment.jpeg"
+            src="/allEquipment.jpg"
             alt="Equipment 1"
             fill={true}
             objectFit="contain"

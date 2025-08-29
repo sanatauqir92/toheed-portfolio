@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Modal from '../components/Modal';
 import { useMemo } from 'react';
+import { PiImagesLight } from "react-icons/pi";
+
 
 type Job = {
   Director: string;
@@ -39,7 +41,6 @@ const Narrative: React.FC = () => {
         if (!res.ok) throw new Error('Failed to fetch narrative data');
         const data = await res.json();
         setNarrative(data);
-        console.log(data.data)
         
       } catch (err: any) {
         setError(err.message);
@@ -88,9 +89,6 @@ const Narrative: React.FC = () => {
     return imageErrors[jobId]?.has(imageSrc) || false;
   };
 
-  console.log('Selected Category:', selectedCategory);
-  console.log('Filtered Narrative:', filteredNarrative);
-
   if (loading) return <div>Loading...</div>;
   if (error || !narrative)
     return <div>Error: {error ?? 'No Equipment data'}</div>;
@@ -105,8 +103,8 @@ const Narrative: React.FC = () => {
           {categories.map((cat) => (
             <button
               key={cat}
-              className={`px-3 py-1 rounded border-2 border-dotted border-red-700 hover:bg-red-700
-                ${selectedCategory === cat ? 'bg-red-700 text-white focus:bg-red-700 transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
+              className={`px-3 py-1 rounded border-2 border-dotted border-red-500 hover:bg-red-500 hover:text-white
+                ${selectedCategory === cat ? 'bg-red-500 text-white focus:bg-red-500 transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
               onClick={() => setSelectedCategory(cat)}
               type="button"
             >
@@ -116,26 +114,38 @@ const Narrative: React.FC = () => {
         </div>
       </div>
 
-      <ul className="md:flex gap-1 list-none p-0">
+      <ul className="md:flex flex-wrap list-none">
         {filteredNarrative?.data.map((job: Job) => (
           <li
             key={job.documentId}
             className="flex-none w-full md:w-1/3 flex mb-4"
           >
             <div className="w-full">
-              {job.Url !== '' && (
+              {!job.Url ? (
+                <div className="w-full aspect-video bg-white border border-gray-300 flex items-center justify-center mb-1 relative">
+                    <Image
+                      src={`/stills/${job.imageUrl}_placeholder.jpg`}
+                      alt="Video coming soon placeholder"
+                      fill
+                      className="object-cover opacity-80"
+                    />
+                  <span className="text-gray-600 text-lg font-medium relative z-10 bg-white/80 px-3 py-2 rounded">
+                    Final Mix Coming Soon
+                  </span>
+                </div>
+              ) : (
                 <iframe
                   src={job.Url}
-                  className="w-full aspect-video block mb-2"
+                  className="w-full aspect-video block mb-1"
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                 ></iframe>
               )}
-              <div className="flex flex-row gap-0.5 mb-2">
+              <div className="flex flex-row mb-2">
                 {!job.imageUrl ? (
                   // Show "Coming Soon" placeholder if no imageUrl
                   <div className="w-full h-24 bg-white border border-gray-300 flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">Coming Soon</span>
+                    <PiImagesLight />
                   </div>
                 ) : (
                   // Generate image buttons if imageUrl exists
@@ -147,8 +157,8 @@ const Narrative: React.FC = () => {
                     return (
                       <div key={idx} className="w-1/3 h-24">
                         {hasError ? (
-                          <div className="w-full h-full bg-white border border-gray-300 flex items-center justify-center">
-                            <span className="text-gray-500 text-xs">Error</span>
+                          <div className="w-full h-full bg-white border border-gray-300 pr-0.5 flex items-center justify-center">
+                            <PiImagesLight className="h-12 w-12"/>
                           </div>
                         ) : (
                           <button
@@ -163,7 +173,7 @@ const Narrative: React.FC = () => {
                               width={0}
                               height={0}
                               sizes="100vw"
-                              className="w-full h-full object-cover hover:cursor-pointer hover:opacity-70"
+                              className="w-full h-full object-cover hover:cursor-pointer hover:opacity-70 pr-0.5"
                               onError={() => handleImageError(job.documentId, fullImagePath)}
                             />
                           </button>
