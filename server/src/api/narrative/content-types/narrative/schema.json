@@ -35,6 +35,12 @@
     },
     "Order": {
       "type": "integer"
+    },
+    "Category": {
+      "type": "string"
+    },
+    "imageUrl": {
+      "type": "string"
     }
   }
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { IoEllipsisVerticalCircle } from 'react-icons/io5';
 
 type OnSet = {
-  category: string;
+  category: string /*  */;
   documentId: string;
   projects: Project[];
 };
