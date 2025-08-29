@@ -5,7 +5,6 @@ import Modal from '../components/Modal';
 import { useMemo } from 'react';
 import { PiImagesLight } from "react-icons/pi";
 
-
 type Job = {
   Director: string;
   Editor: string;
@@ -158,7 +157,7 @@ const Narrative: React.FC = () => {
                       <div key={idx} className="w-1/3 h-24">
                         {hasError ? (
                           <div className="w-full h-full bg-white border border-gray-300 pr-0.5 flex items-center justify-center">
-                            <PiImagesLight className="h-12 w-12"/>
+                            <PiImagesLight className="h-8 w-8"/>
                           </div>
                         ) : (
                           <button
