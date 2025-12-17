@@ -1,7 +1,5 @@
-'use client';
 import Image from 'next/image';
 import React from 'react';
-import { useEffect, useState } from 'react';
 
 type Role = {
   Category: string;
@@ -13,33 +11,24 @@ type EquipmentData = {
   data: [Role];
 };
 
-const Equipment: React.FC = () => {
-  const [equipment, setEquipment] = useState<EquipmentData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+async function getEquipment(): Promise<EquipmentData> {
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+  const path = '/api/equipments?populate=*';
+  const url = new URL(path, baseUrl);
 
-  useEffect(() => {
-    const fetchEquipment = async () => {
-      try {
-        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-        const path = '/api/equipments?populate=*';
-        const url = new URL(path, baseUrl);
-        const res = await fetch(url.toString());
-        if (!res.ok) throw new Error('Failed to fetch equipment data');
-        const data = await res.json();
-        setEquipment(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEquipment();
-  }, []);
+  const res = await fetch(url.toString(), {
+    next: { revalidate: 3600 } // Revalidate every hour
+  });
 
-  if (loading) return <div>Loading...</div>;
-  if (error || !equipment)
-    return <div>Error: {error ?? 'No Equipment data'}</div>;
+  if (!res.ok) {
+    throw new Error('Failed to fetch equipment data');
+  }
+
+  return res.json();
+}
+
+const Equipment = async () => {
+  const equipment = await getEquipment();
 
   return (
     <>
@@ -50,7 +39,7 @@ const Equipment: React.FC = () => {
             src="/allEquipment.jpg"
             alt="Equipment 1"
             fill={true}
-            objectFit="contain"
+            className="object-contain"
           />
         </div>
         <ul className="flex flex-col gap-4">

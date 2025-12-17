@@ -27,11 +27,12 @@ const Grid: React.FC = () => {
           <Image
             src={photo}
             alt={'Photo'}
-            width={0}
-            height={0}
-            sizes="100vw"
+            width={800}
+            height={600}
+            sizes="(max-width: 768px) 50vw, 33vw"
             className="w-full h-auto object-cover block"
             priority={index < VISIBLE_ITEMS_COUNT}
+            loading={index < VISIBLE_ITEMS_COUNT ? undefined : 'lazy'}
           />
         </div>
       ))}

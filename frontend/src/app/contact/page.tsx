@@ -1,8 +1,7 @@
-'use client';
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+
 type ProfileData = {
   data: {
     instagram: string;
@@ -11,32 +10,24 @@ type ProfileData = {
   };
 };
 
-const Contact: React.FC = () => {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+async function getProfile(): Promise<ProfileData> {
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+  const path = '/api/profile?populate=*';
+  const url = new URL(path, baseUrl);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-        const path = '/api/profile?populate=*';
-        const url = new URL(path, baseUrl);
-        const res = await fetch(url.toString());
-        if (!res.ok) throw new Error('Failed to fetch profile data');
-        const data = await res.json();
-        setProfile(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
-  }, []);
+  const res = await fetch(url.toString(), {
+    next: { revalidate: 3600 } // Revalidate every hour
+  });
 
-  if (loading) return <div>Loading...</div>;
-  if (error || !profile) return <div>Error: {error ?? 'No profile data'}</div>;
+  if (!res.ok) {
+    throw new Error('Failed to fetch profile data');
+  }
+
+  return res.json();
+}
+
+const Contact = async () => {
+  const profile = await getProfile();
 
   return (
     <>
@@ -44,11 +35,11 @@ const Contact: React.FC = () => {
       <div className="lg:flex lg:flex-row mt-4">
         <Image
           src="/toheed_profile.jpg"
-          height={0}
-          width={0}
-          sizes="100vw"
+          height={400}
+          width={400}
+          sizes="(max-width: 768px) 50vw, 25vw"
           alt="Profile picture"
-          className="mb-4 w-1/2 md:w-1/4 md:h-1/4"
+          className="mb-4 w-1/2 md:w-1/4 h-auto"
         />
         <div className="lg:ml-6">
           <div className="flex flex-row">
