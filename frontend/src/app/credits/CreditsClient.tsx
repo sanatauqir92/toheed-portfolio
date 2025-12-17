@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 type OnSet = {
   category: string;
   documentId: string;
-  projects: Project[];
+  projects?: Project[];
 };
 
 type Project = {
@@ -62,7 +62,7 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     const observerRef = useRef<HTMLDivElement>(null);
     const isExpanded = expandedCategories.has(category.category);
     const visibleCount = visibleProjects[category.category] || 5;
-    const hasMore = category.projects.length > visibleCount;
+    const hasMore = category.projects && category.projects.length > visibleCount;
 
     // Intersection observer for auto-load on desktop
     useEffect(() => {
@@ -167,8 +167,8 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
               const SmallCategorySection = () => {
                 const observerRef = useRef<HTMLDivElement>(null);
                 const isExpanded = expandedCategories.has(category.category);
-                const visibleCount = visibleProjects[category.category] || category.projects.length;
-                const hasMore = category.projects.length > visibleCount;
+                const visibleCount = visibleProjects[category.category] || (category.projects?.length || 0);
+                const hasMore = category.projects && category.projects.length > visibleCount;
 
                 // Intersection observer for auto-load on desktop
                 useEffect(() => {

@@ -12,11 +12,16 @@ type ProfileData = {
 
 async function getProfile(): Promise<ProfileData | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+    let baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
     if (!baseUrl) {
       console.warn('NEXT_PUBLIC_STRAPI_API_URL is not defined');
       return null;
+    }
+
+    // Ensure baseUrl has a protocol
+    if (!baseUrl.startsWith('http://') && !baseUrl.startsWith('https://')) {
+      baseUrl = `https://${baseUrl}`;
     }
 
     const path = '/api/profile?populate=*';
