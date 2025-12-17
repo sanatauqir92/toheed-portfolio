@@ -20,19 +20,32 @@ type SetData = {
 };
 
 async function getCredits(): Promise<SetData> {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-  const path = '/api/onsets?sort=numberForOrder:asc';
-  const url = new URL(path, baseUrl);
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
-  const res = await fetch(url.toString(), {
-    next: { revalidate: 3600 } // Revalidate every hour
-  });
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_STRAPI_API_URL is not defined, returning empty data');
+      return { data: [] };
+    }
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch credits data');
+    const path = '/api/onsets?sort=numberForOrder:asc';
+    const url = new URL(path, baseUrl);
+
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch credits data:', res.status);
+      return { data: [] };
+    }
+
+    const data = await res.json();
+    return data || { data: [] };
+  } catch (error) {
+    console.error('Error fetching credits:', error);
+    return { data: [] };
   }
-
-  return res.json();
 }
 
 export default async function Credits() {

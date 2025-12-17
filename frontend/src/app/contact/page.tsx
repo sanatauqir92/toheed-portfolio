@@ -10,24 +10,45 @@ type ProfileData = {
   };
 };
 
-async function getProfile(): Promise<ProfileData> {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-  const path = '/api/profile?populate=*';
-  const url = new URL(path, baseUrl);
+async function getProfile(): Promise<ProfileData | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
-  const res = await fetch(url.toString(), {
-    next: { revalidate: 3600 } // Revalidate every hour
-  });
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_STRAPI_API_URL is not defined');
+      return null;
+    }
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch profile data');
+    const path = '/api/profile?populate=*';
+    const url = new URL(path, baseUrl);
+
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch profile data:', res.status);
+      return null;
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    return null;
   }
-
-  return res.json();
 }
 
 const Contact = async () => {
   const profile = await getProfile();
+
+  if (!profile || !profile.data) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold uppercase">Contact Me</h1>
+        <p className="text-lg mt-4">Contact information not available.</p>
+      </>
+    );
+  }
 
   return (
     <>

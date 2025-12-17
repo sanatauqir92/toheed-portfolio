@@ -8,27 +8,48 @@ type Role = {
 };
 
 type EquipmentData = {
-  data: [Role];
+  data: Role[];
 };
 
-async function getEquipment(): Promise<EquipmentData> {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
-  const path = '/api/equipments?populate=*';
-  const url = new URL(path, baseUrl);
+async function getEquipment(): Promise<EquipmentData | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
-  const res = await fetch(url.toString(), {
-    next: { revalidate: 3600 } // Revalidate every hour
-  });
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_STRAPI_API_URL is not defined');
+      return null;
+    }
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch equipment data');
+    const path = '/api/equipments?populate=*';
+    const url = new URL(path, baseUrl);
+
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 3600 } // Revalidate every hour
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch equipment data:', res.status);
+      return null;
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching equipment:', error);
+    return null;
   }
-
-  return res.json();
 }
 
 const Equipment = async () => {
   const equipment = await getEquipment();
+
+  if (!equipment || !equipment.data || equipment.data.length === 0) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold uppercase">Equipment</h1>
+        <p className="text-lg mt-4">No equipment data available.</p>
+      </>
+    );
+  }
 
   return (
     <>

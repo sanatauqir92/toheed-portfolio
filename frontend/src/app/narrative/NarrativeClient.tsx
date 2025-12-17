@@ -26,6 +26,9 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   const [imageErrors, setImageErrors] = useState<Record<string, Set<string>>>({});
 
   const categories = useMemo(() => {
+    if (!narrative?.data || narrative.data.length === 0) {
+      return ['All Projects'];
+    }
     return [
       'All Projects',
       ...Array.from(
@@ -35,6 +38,9 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   }, [narrative]);
 
   const filteredNarrative = useMemo(() => {
+    if (!narrative?.data) {
+      return { data: [] };
+    }
     if (selectedCategory === 'All Projects') {
       return narrative;
     }
@@ -58,6 +64,15 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   const hasImageError = (jobId: string, imageSrc: string) => {
     return imageErrors[jobId]?.has(imageSrc) || false;
   };
+
+  if (!narrative?.data || narrative.data.length === 0) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold uppercase mb-4">Editing Work</h1>
+        <p className="text-lg mt-4">No editing work available.</p>
+      </>
+    );
+  }
 
   return (
     <>

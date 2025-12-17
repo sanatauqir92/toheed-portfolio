@@ -25,15 +25,17 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     [key: string]: number;
   }>(() => {
     const initialVisible: { [key: string]: number } = {};
-    onset.data.forEach((option: OnSet) => {
-      initialVisible[option.category] = 5;
-    });
+    if (onset?.data) {
+      onset.data.forEach((option: OnSet) => {
+        initialVisible[option.category] = 5;
+      });
+    }
     return initialVisible;
   });
 
   // Accordion state for mobile
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    () => new Set(onset.data.map(cat => cat.category))
+    () => new Set(onset?.data?.map(cat => cat.category) || [])
   );
 
   const toggleCategory = (category: string) => {
@@ -141,6 +143,15 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
       </li>
     );
   };
+
+  if (!onset?.data || onset.data.length === 0) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold uppercase">Credits</h1>
+        <p className="text-lg mt-4">No credits data available.</p>
+      </>
+    );
+  }
 
   return (
     <>
