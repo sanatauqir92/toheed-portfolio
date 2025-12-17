@@ -2,7 +2,6 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Modal from '../components/Modal';
-import { PiImagesLight } from 'react-icons/pi';
 
 type Job = {
   Director: string;
@@ -110,8 +109,10 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
               )}
               <div className="flex flex-row mb-2">
                 {!job.imageUrl ? (
-                  <div className="w-full h-24 bg-white border border-gray-300 flex items-center justify-center">
-                    <PiImagesLight />
+                  <div className="w-full h-24 bg-gray-100 border border-gray-300 flex items-center justify-center">
+                    <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
                   </div>
                 ) : (
                   Array.from({ length: 3 }, (_, idx) => {
@@ -122,23 +123,24 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
                     return (
                       <div key={idx} className="w-1/3 h-24">
                         {hasError ? (
-                          <div className="w-full h-full bg-white border border-gray-300 pr-0.5 flex items-center justify-center">
-                            <PiImagesLight className="h-8 w-8" />
+                          <div className="w-full h-full bg-gray-100 border border-gray-300 pr-0.5 flex items-center justify-center">
+                            <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
                           </div>
                         ) : (
                           <button
                             type="button"
-                            className="w-full h-full"
+                            className="w-full h-full relative"
                             onClick={() => openImage(img)}
                             style={{ background: 'none', border: 'none', padding: 0 }}
                           >
                             <Image
                               src={fullImagePath}
                               alt={`${job.Title} still ${idx + 1}`}
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              className="w-full h-full object-cover hover:cursor-pointer hover:opacity-70 pr-0.5"
+                              fill
+                              sizes="(max-width: 768px) 50vw, 33vw"
+                              className="object-cover hover:cursor-pointer hover:opacity-70 pr-0.5"
                               onError={() => handleImageError(job.documentId, fullImagePath)}
                             />
                           </button>
