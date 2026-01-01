@@ -34,7 +34,7 @@ async function getNarrative(): Promise<NarrativeData> {
     const url = new URL(path, baseUrl);
 
     const res = await fetch(url.toString(), {
-      next: { revalidate: 1800 } // Revalidate every hour
+      next: { revalidate: 300 } // Revalidate every hour
     });
 
     if (!res.ok) {

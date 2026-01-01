@@ -136,6 +136,17 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
                 </ul>
               ))}
 
+            {/* Load More button for mobile */}
+            {hasMore && (
+              <button
+                onClick={() => loadMoreProjects(category.category)}
+                className="lg:hidden w-full py-3 mt-2 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                aria-label="Load more projects"
+              >
+                <span className="text-lg">Load More</span>
+              </button>
+            )}
+
             {/* Intersection observer trigger for desktop auto-load */}
             {hasMore && <div ref={observerRef} className="h-4" />}
           </div>
@@ -232,6 +243,18 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
                             <li className="font-bold">{project.accolades}</li>
                           </ul>
                         ))}
+
+                        {/* Load More button for mobile */}
+                        {hasMore && (
+                          <button
+                            onClick={() => loadMoreProjects(category.category)}
+                            className="lg:hidden w-full py-3 mt-2 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                            aria-label="Load more projects"
+                          >
+                            <span className="text-lg">Load More</span>
+                          </button>
+                        )}
+
                         {hasMore && <div ref={observerRef} className="h-4" />}
                       </div>
                     )}
