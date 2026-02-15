@@ -65,7 +65,7 @@ const Contact = async () => {
           width={400}
           sizes="(max-width: 768px) 50vw, 25vw"
           alt="Profile picture"
-          className="mb-4 w-1/2 md:w-1/4 h-auto"
+          className="mb-4 w-1/2 md:w-1/3 h-auto"
         />
         <div className="lg:ml-6">
           <div className="flex flex-row">

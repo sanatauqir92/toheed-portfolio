@@ -32,7 +32,7 @@ export default function Navbar() {
       {/* Hamburger button - centered on mobile */}
       <div className="lg:hidden flex justify-center">
         <button
-          className="btn btn-ghost"
+          className="btn btn-ghost text-white"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -63,7 +63,7 @@ export default function Navbar() {
             <Link
               href={route.path}
               key={route.name}
-              className="text-xl link-primary py-2 hover:bg-base-200 px-2 rounded transition-colors"
+              className="text-xl text-white py-2 hover:bg-white/10 px-2 rounded transition-colors"
               onClick={() => setOpen(false)}
             >
               {route.name}
@@ -75,7 +75,7 @@ export default function Navbar() {
       {/* Desktop menu */}
       <ul className="hidden lg:flex flex-row justify-between text-xl mt-8">
         {routes.map((route) => (
-          <Link href={route.path} key={route.name} className="link-primary">
+          <Link href={route.path} key={route.name} className="text-white hover:text-gray-300 transition-colors">
             {route.name}
           </Link>
         ))}
