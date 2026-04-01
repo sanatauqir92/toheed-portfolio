@@ -23,6 +23,7 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Projects');
+  const [selectedYear, setSelectedYear] = useState('All Years');
   const [imageErrors, setImageErrors] = useState<Record<string, Set<string>>>({});
 
   const categories = useMemo(() => {
@@ -41,13 +42,14 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
     if (!narrative?.data) {
       return { data: [] };
     }
-    if (selectedCategory === 'All Projects') {
-      return narrative;
-    }
     return {
-      data: narrative.data.filter((job: Job) => job.Category === selectedCategory),
+      data: narrative.data.filter((job: Job) => {
+        const categoryMatch = selectedCategory === 'All Projects' || job.Category === selectedCategory;
+        const yearMatch = selectedYear === 'All Years' || job.Year === selectedYear;
+        return categoryMatch && yearMatch;
+      }),
     };
-  }, [narrative, selectedCategory]);
+  }, [narrative, selectedCategory, selectedYear]);
 
   const openImage = (img: string) => {
     setOpen(true);
@@ -68,7 +70,7 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   if (!narrative?.data || narrative.data.length === 0) {
     return (
       <>
-        <h1 className="text-3xl font-bold uppercase mb-4">Editing Work</h1>
+        <h1 className="text-2xl font-bold uppercase mb-4">Editing Work</h1>
         <p className="text-lg mt-4">No editing work available.</p>
       </>
     );
@@ -76,9 +78,9 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
 
   return (
     <>
-      <h1 className="text-3xl font-bold uppercase mb-4">Editing Work</h1>
+      <h1 className="text-2xl font-bold uppercase mb-4">Editing Work</h1>
       <div>
-        <div className="mb-4 flex gap-2 flex-wrap items-center">
+        <div className="mb-2 flex gap-2 flex-wrap items-center">
           <p>Filter By:</p>
           {categories.map((cat) => (
             <button
@@ -89,6 +91,20 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
               type="button"
             >
               {cat}
+            </button>
+          ))}
+        </div>
+        <div className="mb-4 flex gap-2 flex-wrap items-center">
+          <p>Year:</p>
+          {['All Years', '2024', '2025', '2026'].map((year) => (
+            <button
+              key={year}
+              className={`px-3 py-1 rounded border-2 border-dotted border-red-500 hover:bg-red-500 hover:text-white
+                ${selectedYear === year ? 'bg-red-500 text-white focus:bg-red-500 transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
+              onClick={() => setSelectedYear(year)}
+              type="button"
+            >
+              {year}
             </button>
           ))}
         </div>

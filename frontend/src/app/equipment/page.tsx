@@ -50,7 +50,7 @@ const Equipment = async () => {
   if (!equipment || !equipment.data || equipment.data.length === 0) {
     return (
       <>
-        <h1 className="text-3xl font-bold uppercase">Equipment</h1>
+        <h1 className="text-2xl font-bold uppercase">Equipment</h1>
         <p className="text-lg mt-4">No equipment data available.</p>
       </>
     );
@@ -58,7 +58,7 @@ const Equipment = async () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold uppercase">Equipment</h1>
+      <h1 className="text-2xl font-bold uppercase">Equipment</h1>
       <div className="flex flex-col md:flex-row gap-4 my-4">
         <div className="relative w-full h-48 md:w-1/3 md:h-64">
           <Image
