@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
 type OnSet = {
   category: string;
@@ -21,6 +21,25 @@ type SetData = {
 };
 
 export default function CreditsClient({ onset }: { onset: SetData }) {
+  const [selectedYear, setSelectedYear] = useState('All Years');
+
+  const filteredOnset = useMemo(() => {
+    if (!onset?.data) return { data: [] };
+    if (selectedYear === 'All Years') return onset;
+    return {
+      data: onset.data
+        .map((category) => ({
+          ...category,
+          projects: category.projects?.filter((p) =>
+            ['2024', '2025', '2026'].some((y) => p.length?.includes(y))
+              ? p.length?.includes(selectedYear)
+              : false
+          ),
+        }))
+        .filter((category) => category.projects && category.projects.length > 0),
+    };
+  }, [onset, selectedYear]);
+
   const [visibleProjects, setVisibleProjects] = useState<{
     [key: string]: number;
   }>(() => {
@@ -85,7 +104,7 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     return (
       <li
         key={category.documentId}
-        className="text-xl lg:w-1/3 mt-2 justify-between"
+        className="text-lg lg:w-1/3 mt-2 justify-between"
       >
         {/* Sticky header for mobile, clickable accordion toggle */}
         <button
@@ -158,7 +177,7 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
   if (!onset?.data || onset.data.length === 0) {
     return (
       <>
-        <h1 className="text-3xl font-bold uppercase">Credits</h1>
+        <h1 className="text-2xl font-bold uppercase mb-4">Credits</h1>
         <p className="text-lg mt-4">No credits data available.</p>
       </>
     );
@@ -166,15 +185,29 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
 
   return (
     <>
-      <h1 className="text-3xl font-bold uppercase">Credits</h1>
+      <h1 className="text-2xl font-bold uppercase mb-4">Credits</h1>
+      <div className="mb-4 flex gap-2 flex-wrap items-center">
+        <p>Year:</p>
+        {['All Years', '2024', '2025', '2026'].map((year) => (
+          <button
+            key={year}
+            className={`px-3 py-1 rounded border-2 border-dotted border-red-500 hover:bg-red-500 hover:text-white
+              ${selectedYear === year ? 'bg-red-500 text-white transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
+            onClick={() => setSelectedYear(year)}
+            type="button"
+          >
+            {year}
+          </button>
+        ))}
+      </div>
       <ul className="flex flex-col lg:flex-row justify-between gap-2">
-        {onset.data[0] && <CategorySection category={onset.data[0]} />}
-        {onset.data[1] && <CategorySection category={onset.data[1]} />}
+        {filteredOnset.data[0] && <CategorySection category={filteredOnset.data[0]} />}
+        {filteredOnset.data[1] && <CategorySection category={filteredOnset.data[1]} />}
 
         {/* Third column with multiple categories */}
-        {onset.data.length > 2 && (
-          <li className="text-xl lg:w-1/3 mt-2 justify-between">
-            {onset.data.slice(2).map((category) => {
+        {filteredOnset.data.length > 2 && (
+          <li className="text-lg lg:w-1/3 mt-2 justify-between">
+            {filteredOnset.data.slice(2).map((category) => {
               const SmallCategorySection = () => {
                 const observerRef = useRef<HTMLDivElement>(null);
                 const isExpanded = expandedCategories.has(category.category);

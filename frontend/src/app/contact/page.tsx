@@ -57,7 +57,7 @@ const Contact = async () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold uppercase">Contact Me</h1>
+      <h1 className="text-2xl font-bold uppercase">Contact Me</h1>
       <div className="lg:flex lg:flex-row mt-4">
         <Image
           src="/toheed_profile.jpg"
