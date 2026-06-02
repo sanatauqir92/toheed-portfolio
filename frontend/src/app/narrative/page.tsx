@@ -1,4 +1,14 @@
+import type { Metadata } from 'next';
 import NarrativeClient from './NarrativeClient';
+
+export const metadata: Metadata = {
+  title: 'Editing Work',
+  description: 'Browse narrative and short film editing work by Toheed Chaudhry, including feature films, short films, and festival selections.',
+  openGraph: {
+    title: 'Editing Work | Toheed Chaudhry',
+    description: 'Browse narrative and short film editing work by Toheed Chaudhry, including feature films, short films, and festival selections.',
+  },
+};
 
 type Job = {
   Director: string;

@@ -1,36 +1,24 @@
+'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const routes = [
-  {
-    name: 'Home',
-    path: '/',
-  },
-  {
-    name: 'Editing',
-    path: '/narrative',
-  },
-  {
-    name: 'Credits',
-    path: '/credits',
-  },
-  {
-    name: 'Equipment',
-    path: '/equipment',
-  },
-  {
-    name: 'Contact',
-    path: '/contact',
-  },
+  { name: 'Home', path: '/' },
+  { name: 'Editing', path: '/narrative' },
+  { name: 'Credits', path: '/credits' },
+  { name: 'Equipment', path: '/equipment' },
+  { name: 'Contact', path: '/contact' },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="relative z-20">
-      {/* Hamburger button - centered on mobile */}
-      <div className="lg:hidden flex justify-center">
+      {/* Hamburger button - left-aligned on mobile */}
+      <div className="lg:hidden flex justify-start">
         <button
           className="btn btn-ghost text-white"
           onClick={() => setOpen(!open)}
@@ -63,7 +51,11 @@ export default function Navbar() {
             <Link
               href={route.path}
               key={route.name}
-              className="text-xl text-white py-2 hover:bg-white/10 px-2 rounded transition-colors"
+              className={`text-xl py-2 px-2 rounded transition-colors ${
+                pathname === route.path
+                  ? 'text-white bg-white/20'
+                  : 'text-white hover:bg-white/10'
+              }`}
               onClick={() => setOpen(false)}
             >
               {route.name}
@@ -75,7 +67,15 @@ export default function Navbar() {
       {/* Desktop menu */}
       <ul className="hidden lg:flex flex-row justify-between text-xl mt-8">
         {routes.map((route) => (
-          <Link href={route.path} key={route.name} className="text-white hover:text-gray-300 transition-colors">
+          <Link
+            href={route.path}
+            key={route.name}
+            className={`transition-colors pb-1 ${
+              pathname === route.path
+                ? 'text-white border-b-2 border-white'
+                : 'text-white hover:text-gray-300 border-b-2 border-transparent'
+            }`}
+          >
             {route.name}
           </Link>
         ))}
