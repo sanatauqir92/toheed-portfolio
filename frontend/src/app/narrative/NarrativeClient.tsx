@@ -23,7 +23,6 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Projects');
-  const [selectedYear, setSelectedYear] = useState('All Years');
   const [imageErrors, setImageErrors] = useState<Record<string, Set<string>>>({});
 
   const categories = useMemo(() => {
@@ -44,12 +43,10 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
     }
     return {
       data: narrative.data.filter((job: Job) => {
-        const categoryMatch = selectedCategory === 'All Projects' || job.Category === selectedCategory;
-        const yearMatch = selectedYear === 'All Years' || job.Year === selectedYear;
-        return categoryMatch && yearMatch;
+        return selectedCategory === 'All Projects' || job.Category === selectedCategory;
       }),
     };
-  }, [narrative, selectedCategory, selectedYear]);
+  }, [narrative, selectedCategory]);
 
   const openImage = (img: string) => {
     setOpen(true);
@@ -70,7 +67,7 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
   if (!narrative?.data || narrative.data.length === 0) {
     return (
       <>
-        <h1 className="text-2xl font-bold uppercase mb-4">Editing Work</h1>
+        <h1 className="text-xl font-bold uppercase mb-4">Editing Work</h1>
         <p className="text-lg mt-4">No editing work available.</p>
       </>
     );
@@ -78,33 +75,21 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
 
   return (
     <>
-      <h1 className="text-2xl font-bold uppercase mb-4">Editing Work</h1>
+      <h1 className="text-xl font-bold uppercase mb-4">Editing Work</h1>
       <div>
         <div className="mb-2 flex gap-2 flex-wrap items-center">
-          <p>Filter By:</p>
+          <p className="text-sm text-gray-500 uppercase tracking-wide mr-1">Filter</p>
           {categories.map((cat) => (
             <button
               key={cat}
-              className={`px-3 py-1 rounded border-2 border-dotted border-red-500 hover:bg-red-500 hover:text-white
-                ${selectedCategory === cat ? 'bg-red-500 text-white focus:bg-red-500 transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
+              className={`px-4 py-1 rounded-full text-sm font-medium transition-colors duration-200
+                ${selectedCategory === cat
+                  ? 'bg-[#211814] text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
               onClick={() => setSelectedCategory(cat)}
               type="button"
             >
               {cat}
-            </button>
-          ))}
-        </div>
-        <div className="mb-4 flex gap-2 flex-wrap items-center">
-          <p>Year:</p>
-          {['All Years', '2024', '2025', '2026'].map((year) => (
-            <button
-              key={year}
-              className={`px-3 py-1 rounded border-2 border-dotted border-red-500 hover:bg-red-500 hover:text-white
-                ${selectedYear === year ? 'bg-red-500 text-white focus:bg-red-500 transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
-              onClick={() => setSelectedYear(year)}
-              type="button"
-            >
-              {year}
             </button>
           ))}
         </div>
@@ -181,12 +166,12 @@ export default function NarrativeClient({ narrative }: { narrative: NarrativeDat
                   })
                 )}
               </div>
-              <p className="text-xl">
+              <p className="text-lg">
                 {job.Title} <i>{job.Year}</i>
               </p>
-              <p className="text-lg">📽️ Directed by {job.Director}</p>
-              <p className="text-lg">✂️ {job.Editor}</p>
-              <p className="text-lg">{job.Accolades}</p>
+              <p className="text-base">📽️ Directed by {job.Director}</p>
+              <p className="text-base">✂️ {job.Editor}</p>
+              <p className="text-base">{job.Accolades}</p>
             </div>
           </li>
         ))}

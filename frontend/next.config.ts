@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const ContentSecurityPolicy = `
-  frame-src 'self' https://www.youtube.com https://youtube.com;
+  frame-src 'self' https://www.youtube.com https://youtube.com https://newassets.hcaptcha.com;
 `;
 
 const nextConfig: NextConfig = {

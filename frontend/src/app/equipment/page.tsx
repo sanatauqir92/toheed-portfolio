@@ -1,9 +1,21 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 
+export const metadata: Metadata = {
+  title: 'Equipment',
+  description:
+    'Camera and production equipment used by Toheed Chaudhry for film and video projects.',
+  openGraph: {
+    title: 'Equipment | Toheed Chaudhry',
+    description:
+      'Camera and production equipment used by Toheed Chaudhry for film and video projects.',
+  },
+};
+
 type Role = {
   Category: string;
-  Items: { items: [] };
+  Items: { items: string[] };
   documentId: string;
 };
 
@@ -29,7 +41,7 @@ async function getEquipment(): Promise<EquipmentData | null> {
     const url = new URL(path, baseUrl);
 
     const res = await fetch(url.toString(), {
-      next: { revalidate: 3600 } // Revalidate every hour
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (!res.ok) {
@@ -50,7 +62,7 @@ const Equipment = async () => {
   if (!equipment || !equipment.data || equipment.data.length === 0) {
     return (
       <>
-        <h1 className="text-2xl font-bold uppercase">Equipment</h1>
+        <h1 className="text-xl font-bold uppercase">Equipment</h1>
         <p className="text-lg mt-4">No equipment data available.</p>
       </>
     );
@@ -58,7 +70,7 @@ const Equipment = async () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold uppercase">Equipment</h1>
+      <h1 className="text-xl font-bold uppercase">Equipment</h1>
       <div className="flex flex-col md:flex-row gap-4 my-4">
         <div className="relative w-full h-48 md:w-1/3 md:h-64">
           <Image
@@ -71,11 +83,11 @@ const Equipment = async () => {
         <ul className="flex flex-col gap-4">
           {equipment.data.map((role: Role) => (
             <li key={role.documentId}>
-              <p className="text-2xl">{role.Category}</p>
-              <div className="flex flex-row gap-2 flex-wrap">
+              <p className="text-xl mb-2">{role.Category}</p>
+              <div className="flex flex-col gap-2 flex-wrap">
                 {role.Items.items.map((item) => (
                   <p
-                    className="rounded-4xl bg-green-400 py-1 px-3 text-lg"
+                    className="inset-shadow-sm/50 inset-shadow-amber-900 rounded py-1 px-3 text-lg"
                     key={item}
                   >
                     {item}

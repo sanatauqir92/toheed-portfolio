@@ -1,4 +1,14 @@
+import type { Metadata } from 'next';
 import CreditsClient from './CreditsClient';
+
+export const metadata: Metadata = {
+  title: 'Credits',
+  description: 'Full production credits for Toheed Chaudhry — editing, camera, and on-set roles across film and video projects.',
+  openGraph: {
+    title: 'Credits | Toheed Chaudhry',
+    description: 'Full production credits for Toheed Chaudhry — editing, camera, and on-set roles across film and video projects.',
+  },
+};
 
 type OnSet = {
   category: string;

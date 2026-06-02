@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type OnSet = {
   category: string;
@@ -21,25 +21,6 @@ type SetData = {
 };
 
 export default function CreditsClient({ onset }: { onset: SetData }) {
-  const [selectedYear, setSelectedYear] = useState('All Years');
-
-  const filteredOnset = useMemo(() => {
-    if (!onset?.data) return { data: [] };
-    if (selectedYear === 'All Years') return onset;
-    return {
-      data: onset.data
-        .map((category) => ({
-          ...category,
-          projects: category.projects?.filter((p) =>
-            ['2024', '2025', '2026'].some((y) => p.length?.includes(y))
-              ? p.length?.includes(selectedYear)
-              : false
-          ),
-        }))
-        .filter((category) => category.projects && category.projects.length > 0),
-    };
-  }, [onset, selectedYear]);
-
   const [visibleProjects, setVisibleProjects] = useState<{
     [key: string]: number;
   }>(() => {
@@ -54,7 +35,7 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
 
   // Accordion state for mobile
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    () => new Set(onset?.data?.map(cat => cat.category) || [])
+    () => new Set(onset?.data?.map((cat) => cat.category) || [])
   );
 
   const toggleCategory = (category: string) => {
@@ -81,7 +62,8 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     const observerRef = useRef<HTMLDivElement>(null);
     const isExpanded = expandedCategories.has(category.category);
     const visibleCount = visibleProjects[category.category] || 5;
-    const hasMore = category.projects && category.projects.length > visibleCount;
+    const hasMore =
+      category.projects && category.projects.length > visibleCount;
 
     // Intersection observer for auto-load on desktop
     useEffect(() => {
@@ -102,67 +84,62 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     }, [hasMore, category.category]);
 
     return (
-      <li
-        key={category.documentId}
-        className="text-lg lg:w-1/3 mt-2 justify-between"
-      >
+      <li key={category.documentId} className="lg:w-1/3 mt-2 justify-between">
         {/* Sticky header for mobile, clickable accordion toggle */}
         <button
           onClick={() => toggleCategory(category.category)}
           className="sticky top-0 bg-white z-10 py-2 w-full text-left flex items-center justify-between uppercase lg:static lg:pointer-events-none lg:pb-0"
         >
           <span>{category.category}</span>
-          <span className="lg:hidden text-2xl">
-            {isExpanded ? '−' : '+'}
-          </span>
+          <span className="lg:hidden text-2xl">{isExpanded ? '−' : '+'}</span>
         </button>
 
         {/* Content - collapsible on mobile, always visible on desktop */}
         {category.projects && (
           <div
-            className={`flex flex-col text-lg gap-1 transition-all duration-300 overflow-hidden ${
-              isExpanded ? 'max-h-[10000px] opacity-100' : 'max-h-0 opacity-0 lg:max-h-[10000px] lg:opacity-100'
+            className={`flex flex-col gap-1 transition-all duration-300 overflow-hidden ${
+              isExpanded
+                ? 'max-h-[10000px] opacity-100'
+                : 'max-h-0 opacity-0 lg:max-h-[10000px] lg:opacity-100'
             }`}
           >
-            {category.projects
-              .slice(0, visibleCount)
-              .map((project, index) => (
-                <ul
-                  className="border-2 border-dashed border-amber-900 p-2 mt-2"
-                  key={index}
-                >
-                  {project.url && project.url.length !== 0 ? (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <li className="font-bold text-wrap hover:text-blue-800">
-                        {project.title}
-                      </li>
-                    </a>
-                  ) : (
-                    <li className="font-bold text-wrap">{project.title}</li>
-                  )}
-                  <li>{project.length}</li>
-                  <li>{project.description}</li>
-                  <li className="font-bold">{project.accolades}</li>
-                  {project.additionalInfo ? (
-                    <li className="float-end text-blue-800">
-                      {project.additionalInfo}
+            {category.projects.slice(0, visibleCount).map((project, index) => (
+              <ul
+                className="inset-shadow-sm/20 inset-shadow-amber-900 rounded p-3 mt-3"
+                key={index}
+              >
+                {project.url && project.url.length !== 0 ? (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <li className="font-bold text-wrap hover:text-blue-800">
+                      {project.title}
                     </li>
-                  ) : null}
-                </ul>
-              ))}
+                  </a>
+                ) : (
+                  <li className="font-bold text-wrap">{project.title}</li>
+                )}
+                <li>{project.length}</li>
+                <li>{project.description}</li>
+                <li className="font-bold">{project.accolades}</li>
+                {project.additionalInfo ? (
+                  <li className="float-end text-blue-800">
+                    {project.additionalInfo}
+                  </li>
+                ) : null}
+              </ul>
+            ))}
 
             {/* Load More button for mobile */}
             {hasMore && (
               <button
                 onClick={() => loadMoreProjects(category.category)}
-                className="lg:hidden w-full py-3 mt-2 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                className="lg:hidden w-1/2 py-3 mt-2 hover:bg-gray-100 transition-colors flex justify-center gap-2 bg-[#211814] text-white rounded-lg mx-auto"
                 aria-label="Load more projects"
               >
-                <span className="text-lg">Load More</span>
+                <span>Load More</span>
               </button>
             )}
 
@@ -185,40 +162,34 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
 
   return (
     <>
-      <h1 className="text-2xl font-bold uppercase mb-4">Credits</h1>
-      <div className="mb-4 flex gap-2 flex-wrap items-center">
-        <p>Year:</p>
-        {['All Years', '2024', '2025', '2026'].map((year) => (
-          <button
-            key={year}
-            className={`px-3 py-1 rounded border-2 border-dotted border-red-500 hover:bg-red-500 hover:text-white
-              ${selectedYear === year ? 'bg-red-500 text-white transition-colors duration-700 ease-in-out' : 'bg-white text-black'}`}
-            onClick={() => setSelectedYear(year)}
-            type="button"
-          >
-            {year}
-          </button>
-        ))}
-      </div>
+      <h1 className="text-xl font-bold uppercase mb-2">Credits</h1>
       <ul className="flex flex-col lg:flex-row justify-between gap-2">
-        {filteredOnset.data[0] && <CategorySection category={filteredOnset.data[0]} />}
-        {filteredOnset.data[1] && <CategorySection category={filteredOnset.data[1]} />}
+        {onset.data[0] && <CategorySection category={onset.data[0]} />}
+        {onset.data[1] && <CategorySection category={onset.data[1]} />}
 
         {/* Third column with multiple categories */}
-        {filteredOnset.data.length > 2 && (
-          <li className="text-lg lg:w-1/3 mt-2 justify-between">
-            {filteredOnset.data.slice(2).map((category) => {
+        {onset.data.length > 2 && (
+          <li className="lg:w-1/3 mt-2 justify-between">
+            {onset.data.slice(2).map((category) => {
               const SmallCategorySection = () => {
                 const observerRef = useRef<HTMLDivElement>(null);
                 const isExpanded = expandedCategories.has(category.category);
-                const visibleCount = visibleProjects[category.category] || (category.projects?.length || 0);
-                const hasMore = category.projects && category.projects.length > visibleCount;
+                const visibleCount =
+                  visibleProjects[category.category] ||
+                  category.projects?.length ||
+                  0;
+                const hasMore =
+                  category.projects && category.projects.length > visibleCount;
 
                 // Intersection observer for auto-load on desktop
                 useEffect(() => {
                   const observer = new IntersectionObserver(
                     ([entry]) => {
-                      if (entry.isIntersecting && hasMore && window.innerWidth >= 1024) {
+                      if (
+                        entry.isIntersecting &&
+                        hasMore &&
+                        window.innerWidth >= 1024
+                      ) {
                         loadMoreProjects(category.category);
                       }
                     },
@@ -245,46 +216,48 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
                     </button>
                     {category.projects && (
                       <div
-                        className={`flex flex-col text-lg gap-1 transition-all duration-300 overflow-hidden ${
+                        className={`flex flex-col gap-1 transition-all duration-300 overflow-hidden ${
                           isExpanded
                             ? 'max-h-[10000px] opacity-100'
                             : 'max-h-0 opacity-0 lg:max-h-[10000px] lg:opacity-100'
                         }`}
                       >
-                        {category.projects.slice(0, visibleCount).map((project, index) => (
-                          <ul
-                            className="border-2 border-dashed border-amber-900 p-2 mt-2"
-                            key={index}
-                          >
-                            {project.url && project.url.length !== 0 ? (
-                              <a
-                                href={project.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <li className="font-bold text-wrap hover:text-blue-800">
+                        {category.projects
+                          .slice(0, visibleCount)
+                          .map((project, index) => (
+                            <ul
+                              className="inset-shadow-sm/20 inset-shadow-amber-900 rounded p-3 mt-3"
+                              key={index}
+                            >
+                              {project.url && project.url.length !== 0 ? (
+                                <a
+                                  href={project.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <li className="font-bold text-wrap hover:text-blue-800">
+                                    {project.title}
+                                  </li>
+                                </a>
+                              ) : (
+                                <li className="font-bold text-wrap">
                                   {project.title}
                                 </li>
-                              </a>
-                            ) : (
-                              <li className="font-bold text-wrap">
-                                {project.title}
-                              </li>
-                            )}
-                            <li>{project.length}</li>
-                            <li>{project.description}</li>
-                            <li className="font-bold">{project.accolades}</li>
-                          </ul>
-                        ))}
+                              )}
+                              <li>{project.length}</li>
+                              <li>{project.description}</li>
+                              <li className="font-bold">{project.accolades}</li>
+                            </ul>
+                          ))}
 
                         {/* Load More button for mobile */}
                         {hasMore && (
                           <button
                             onClick={() => loadMoreProjects(category.category)}
-                            className="lg:hidden w-full py-3 mt-2 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                            className="lg:hidden w-1/2 py-3 mt-2 hover:bg-gray-100 transition-colors flex justify-center gap-2 bg-[#211814] text-white rounded-lg mx-auto"
                             aria-label="Load more projects"
                           >
-                            <span className="text-lg">Load More</span>
+                            <span>Load More</span>
                           </button>
                         )}
 
