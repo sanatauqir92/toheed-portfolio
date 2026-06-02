@@ -21,7 +21,6 @@ type SetData = {
 };
 
 export default function CreditsClient({ onset }: { onset: SetData }) {
-
   const [visibleProjects, setVisibleProjects] = useState<{
     [key: string]: number;
   }>(() => {
@@ -36,7 +35,7 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
 
   // Accordion state for mobile
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    () => new Set(onset?.data?.map(cat => cat.category) || [])
+    () => new Set(onset?.data?.map((cat) => cat.category) || [])
   );
 
   const toggleCategory = (category: string) => {
@@ -63,7 +62,8 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     const observerRef = useRef<HTMLDivElement>(null);
     const isExpanded = expandedCategories.has(category.category);
     const visibleCount = visibleProjects[category.category] || 5;
-    const hasMore = category.projects && category.projects.length > visibleCount;
+    const hasMore =
+      category.projects && category.projects.length > visibleCount;
 
     // Intersection observer for auto-load on desktop
     useEffect(() => {
@@ -84,64 +84,59 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
     }, [hasMore, category.category]);
 
     return (
-      <li
-        key={category.documentId}
-        className="lg:w-1/3 mt-2 justify-between"
-      >
+      <li key={category.documentId} className="lg:w-1/3 mt-2 justify-between">
         {/* Sticky header for mobile, clickable accordion toggle */}
         <button
           onClick={() => toggleCategory(category.category)}
           className="sticky top-0 bg-white z-10 py-2 w-full text-left flex items-center justify-between uppercase lg:static lg:pointer-events-none lg:pb-0"
         >
           <span>{category.category}</span>
-          <span className="lg:hidden text-2xl">
-            {isExpanded ? '−' : '+'}
-          </span>
+          <span className="lg:hidden text-2xl">{isExpanded ? '−' : '+'}</span>
         </button>
 
         {/* Content - collapsible on mobile, always visible on desktop */}
         {category.projects && (
           <div
             className={`flex flex-col gap-1 transition-all duration-300 overflow-hidden ${
-              isExpanded ? 'max-h-[10000px] opacity-100' : 'max-h-0 opacity-0 lg:max-h-[10000px] lg:opacity-100'
+              isExpanded
+                ? 'max-h-[10000px] opacity-100'
+                : 'max-h-0 opacity-0 lg:max-h-[10000px] lg:opacity-100'
             }`}
           >
-            {category.projects
-              .slice(0, visibleCount)
-              .map((project, index) => (
-                <ul
-                  className="inset-shadow-sm/20 inset-shadow-amber-900 rounded p-3 mt-3"
-                  key={index}
-                >
-                  {project.url && project.url.length !== 0 ? (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <li className="font-bold text-wrap hover:text-blue-800">
-                        {project.title}
-                      </li>
-                    </a>
-                  ) : (
-                    <li className="font-bold text-wrap">{project.title}</li>
-                  )}
-                  <li>{project.length}</li>
-                  <li>{project.description}</li>
-                  <li className="font-bold">{project.accolades}</li>
-                  {project.additionalInfo ? (
-                    <li className="float-end text-blue-800">
-                      {project.additionalInfo}
+            {category.projects.slice(0, visibleCount).map((project, index) => (
+              <ul
+                className="inset-shadow-sm/20 inset-shadow-amber-900 rounded p-3 mt-3"
+                key={index}
+              >
+                {project.url && project.url.length !== 0 ? (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <li className="font-bold text-wrap hover:text-blue-800">
+                      {project.title}
                     </li>
-                  ) : null}
-                </ul>
-              ))}
+                  </a>
+                ) : (
+                  <li className="font-bold text-wrap">{project.title}</li>
+                )}
+                <li>{project.length}</li>
+                <li>{project.description}</li>
+                <li className="font-bold">{project.accolades}</li>
+                {project.additionalInfo ? (
+                  <li className="float-end text-blue-800">
+                    {project.additionalInfo}
+                  </li>
+                ) : null}
+              </ul>
+            ))}
 
             {/* Load More button for mobile */}
             {hasMore && (
               <button
                 onClick={() => loadMoreProjects(category.category)}
-                className="lg:hidden w-full py-3 mt-2 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                className="lg:hidden w-1/2 py-3 mt-2 hover:bg-gray-100 transition-colors flex justify-center gap-2 bg-[#211814] text-white rounded-lg mx-auto"
                 aria-label="Load more projects"
               >
                 <span>Load More</span>
@@ -179,14 +174,22 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
               const SmallCategorySection = () => {
                 const observerRef = useRef<HTMLDivElement>(null);
                 const isExpanded = expandedCategories.has(category.category);
-                const visibleCount = visibleProjects[category.category] || (category.projects?.length || 0);
-                const hasMore = category.projects && category.projects.length > visibleCount;
+                const visibleCount =
+                  visibleProjects[category.category] ||
+                  category.projects?.length ||
+                  0;
+                const hasMore =
+                  category.projects && category.projects.length > visibleCount;
 
                 // Intersection observer for auto-load on desktop
                 useEffect(() => {
                   const observer = new IntersectionObserver(
                     ([entry]) => {
-                      if (entry.isIntersecting && hasMore && window.innerWidth >= 1024) {
+                      if (
+                        entry.isIntersecting &&
+                        hasMore &&
+                        window.innerWidth >= 1024
+                      ) {
                         loadMoreProjects(category.category);
                       }
                     },
@@ -219,37 +222,39 @@ export default function CreditsClient({ onset }: { onset: SetData }) {
                             : 'max-h-0 opacity-0 lg:max-h-[10000px] lg:opacity-100'
                         }`}
                       >
-                        {category.projects.slice(0, visibleCount).map((project, index) => (
-                          <ul
-                            className="inset-shadow-sm/20 inset-shadow-amber-900 rounded p-3 mt-3"
-                            key={index}
-                          >
-                            {project.url && project.url.length !== 0 ? (
-                              <a
-                                href={project.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <li className="font-bold text-wrap hover:text-blue-800">
+                        {category.projects
+                          .slice(0, visibleCount)
+                          .map((project, index) => (
+                            <ul
+                              className="inset-shadow-sm/20 inset-shadow-amber-900 rounded p-3 mt-3"
+                              key={index}
+                            >
+                              {project.url && project.url.length !== 0 ? (
+                                <a
+                                  href={project.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <li className="font-bold text-wrap hover:text-blue-800">
+                                    {project.title}
+                                  </li>
+                                </a>
+                              ) : (
+                                <li className="font-bold text-wrap">
                                   {project.title}
                                 </li>
-                              </a>
-                            ) : (
-                              <li className="font-bold text-wrap">
-                                {project.title}
-                              </li>
-                            )}
-                            <li>{project.length}</li>
-                            <li>{project.description}</li>
-                            <li className="font-bold">{project.accolades}</li>
-                          </ul>
-                        ))}
+                              )}
+                              <li>{project.length}</li>
+                              <li>{project.description}</li>
+                              <li className="font-bold">{project.accolades}</li>
+                            </ul>
+                          ))}
 
                         {/* Load More button for mobile */}
                         {hasMore && (
                           <button
                             onClick={() => loadMoreProjects(category.category)}
-                            className="lg:hidden w-full py-3 mt-2 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                            className="lg:hidden w-1/2 py-3 mt-2 hover:bg-gray-100 transition-colors flex justify-center gap-2 bg-[#211814] text-white rounded-lg mx-auto"
                             aria-label="Load more projects"
                           >
                             <span>Load More</span>

@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <div className="relative z-20">
       {/* Hamburger button - left-aligned on mobile */}
-      <div className="lg:hidden flex justify-start">
+      <div className="lg:hidden flex justify-center">
         <button
           className="btn btn-ghost text-white"
           onClick={() => setOpen(!open)}
