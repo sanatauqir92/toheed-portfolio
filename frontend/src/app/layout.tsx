@@ -53,7 +53,7 @@ export default function RootLayout({
       <body>
         <div className="bg-white min-h-screen grid grid-rows-[auto_1fr_auto] w-full">
           <Header />
-          <main className="text-black text-base w-9/10 lg:w-2/3 mx-auto mt-6 overflow-hidden">
+          <main className="text-black text-base w-11/12 lg:w-5/6 max-w-6xl mx-auto mt-6 overflow-hidden">
             {children}
           </main>
           <Footer />

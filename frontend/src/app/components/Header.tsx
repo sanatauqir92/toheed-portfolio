@@ -37,7 +37,7 @@ export default async function Header() {
       className="w-full bg-[#211814] shadow-lg"
       style={{ colorScheme: 'dark' }}
     >
-      <div className="mx-auto pt-4 pb-2 lg:pt-10 lg:pb-0 w-9/10 lg:w-2/3 text-white">
+      <div className="mx-auto pt-4 pb-2 lg:pt-10 lg:pb-0 w-11/12 lg:w-5/6 max-w-6xl text-white">
         <div className="mb-3 text-center">
           <p className="text-3xl lg:text-5xl font-bold">Toheed Chaudhry</p>
           <p className="text-xl lg:text-2xl font-bold">Editor | DIT | 2nd AC</p>
